@@ -1,0 +1,22 @@
+.productListContainer {
+    position: relative;
+
+}
+
+.productListContainer .productList {
+    height: 390px;
+    scrollbar-width: none;
+    cursor: pointer;
+    overflow-x: scroll;
+    display: flex;
+    gap: 20px;
+}
+
+
+.productListContainer .productList .eachProductList { 
+    width: 250px;
+    flex-shrink: 0;
+    border : 1px solid white;
+    height: 100%;
+    border-radius: 10px;
+}

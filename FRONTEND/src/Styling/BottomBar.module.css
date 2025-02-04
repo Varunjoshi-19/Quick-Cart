@@ -1,0 +1,29 @@
+.joinLink {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 350px;
+    background-image: url("../assets/joinLink.png");
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+    background-color: #412A76;
+    position: relative;
+
+}
+
+.footerInformation .footerIcons #icon {
+
+    border: 1px solid white;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #7254b6;
+    transition: color 200ms, background-color 400ms;
+}
+
+.footerInformation .footerIcons #icon:hover {
+    color: white;
+    background-color: #573B8B;
+
+}

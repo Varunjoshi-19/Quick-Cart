@@ -1,0 +1,10 @@
+POST https://www.instagram.com/accounts/emailsignup/
+Content-Type: application/json
+
+ {
+     "email" : "varunjoshi426@gmail.com",
+     "password" : "123",
+     "fullname" : "vaurn joshi",
+        "username" : "varun45_431"
+
+ }

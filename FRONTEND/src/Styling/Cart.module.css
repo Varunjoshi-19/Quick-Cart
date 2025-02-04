@@ -1,0 +1,38 @@
+.ShoppingCartContainer {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    gap: 50px;
+    flex-direction: column;
+    top: 25%;
+}
+
+
+.ShoppingCartContainer .CartContentMiddleOne { 
+ 
+    height : auto;
+
+
+}
+
+.ShoppingCartContainer .CartContentMiddleOne #continueShop { 
+
+padding : 15px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap : 10px;
+width : auto;
+color :white;
+cursor: pointer;
+font-weight: bolder;
+font-size: 1rem;
+border-radius: 20px;
+background-color: #C10537;
+border: none;
+transition: background-color 400ms;
+
+}
+.ShoppingCartContainer .CartContentMiddleOne #continueShop:hover { 
+    background-color : #422A70;
+}
