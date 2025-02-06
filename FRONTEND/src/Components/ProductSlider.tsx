@@ -1,15 +1,21 @@
+import { useState } from "react";
 import styles from "../Styling/ProductList.module.css";
+import { useNavigate } from "react-router-dom";
 
 
 type PropsType = {
 
     moveLeftSideScroll: (element: string) => void;
     moveRightSideScroll: (element: string) => void;
-    ID : string;
+    ID: string;
 
 }
 
-function ProductSlider({moveLeftSideScroll , moveRightSideScroll , ID}: PropsType) {
+function ProductSlider({ moveLeftSideScroll, moveRightSideScroll, ID }: PropsType) {
+
+    const navigate = useNavigate();
+
+    const [arrayOfList, setArrayOfList] = useState<number[]>([1, 2, 3, 4, 5, 5, 6, 6]);
 
 
     return (
@@ -18,15 +24,11 @@ function ProductSlider({moveLeftSideScroll , moveRightSideScroll , ID}: PropsTyp
 
                 <div id={ID} className={styles.productList} style={{ scrollBehavior: "smooth" }} >
 
-                    <div className={styles.eachProductList} ></div>
-                    <div className={styles.eachProductList} ></div>
-                    <div className={styles.eachProductList} ></div>
-                    <div className={styles.eachProductList} ></div>
-                    <div className={styles.eachProductList} ></div>
-                    <div className={styles.eachProductList} ></div>
-                    <div className={styles.eachProductList} ></div>
-                    <div className={styles.eachProductList} ></div>
-                    <div className={styles.eachProductList} ></div>
+
+                    {arrayOfList.map(each => (
+                        <div onClick={() => navigate(`/product/${each}`)} className={styles.eachProductList} >{each}</div>
+
+                    ))}
 
                 </div>
 

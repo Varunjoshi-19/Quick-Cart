@@ -1,0 +1,145 @@
+.ProductsContainer {
+     height: auto;
+     display: flex;
+     margin-top: 30px;
+     margin-left: 50px;
+}
+
+.ProductsContainer .ProductCategory {
+     width: 300px;
+     display: flex;
+     flex-direction: column;
+     gap: 20px;
+     height: auto;
+     font-size: 13px;
+
+
+}
+
+.ProductsContainer .ProductCategory .productCategoryItems {
+     width: inherit;
+     display: flex;
+     gap: 10px;
+     flex-direction: column;
+     overflow-y: auto;
+     font-size: 12px;
+     height: 300px;
+}
+
+
+.ProductsContainer .ProductCategory .productCategoryItems::-webkit-scrollbar {
+     width: 12px;
+     background-color: #282a2b;
+}
+
+
+.ProductsContainer .ProductCategory .productCategoryItems::-webkit-scrollbar-thumb {
+     background-color: #888;
+
+}
+
+.allProductsAndTopBar {
+     width: 100%;
+     height: 800px;
+     scrollbar-width: none;
+     overflow-y: auto;
+     overflow-x: hidden;
+}
+
+.allProductsAndTopBar .bar {
+
+     width: 90%;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     margin-left: 5%;
+     background-color: #1C1E1F;
+     margin-top: 30px;
+     height: 60px;
+}
+
+.bar .eachCubeItem {
+     display: flex;
+     gap: 10px;
+     margin-left: 20px;
+}
+
+.bar .eachCubeItem img {
+
+     padding: 5px;
+     cursor: pointer;
+     border-radius: 20%;
+
+}
+
+.bar .eachCubeItem img:hover {
+     background-color: rgba(75, 75, 75, 0.425);
+}
+
+
+.priceChanger {
+
+     position: relative;
+     display: flex;
+     margin-top: 10px;
+     gap: 5px;
+     flex-direction: column;
+
+
+}
+
+.priceChanger #ranger1 {
+     width: 250px;
+}
+
+.priceChanger #ranger2 {
+     width: 250px;
+
+
+}
+
+
+.starRating {
+     display: flex;
+     flex-direction: column;
+     gap: 10px;
+}
+
+.starRating ul {
+     padding: 0;
+     margin: 0;
+     list-style: none;
+     display: flex;
+     flex-direction: column;
+     gap: 10px;
+
+}
+
+.starRating ul li {
+     display: flex;
+     cursor: pointer;
+     gap: 5px;
+}
+
+.leftSideFeaturedProduct {
+      height : auto;
+      position: relative;
+}
+
+.leftSideFeaturedProduct .featuredProductItemContainer { 
+     display: flex;
+     gap : 4px;
+     align-items: center;
+     height : 300px;
+     width: 230px;
+     border-radius: 10px;
+     overflow-x: auto;
+     scroll-behavior: smooth;
+     scrollbar-width: none;
+}
+.leftSideFeaturedProduct .featuredProductItemContainer .eachProductItem {
+      width: 100%;
+      border-radius: 10px;
+      flex-shrink: 0;
+      height : 100%;
+}

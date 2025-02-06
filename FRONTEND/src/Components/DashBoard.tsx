@@ -2,10 +2,12 @@ import styles from "../Styling/DashBoard.module.css";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, } from '@fortawesome/free-solid-svg-icons';
-import { Images, BannerImages, SalesImages,  } from "../scripts/GetImage";
+import { Images, BannerImages, SalesImages, } from "../scripts/GetImage";
 import ProductSlider from "./ProductSlider";
 import TopFixedBar from "./TopFixedBar";
 import BottomFixedBar from "./BottomFixedBar";
+import ListOfProducts from "./ListOfProducts";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -24,6 +26,7 @@ function DashBoard() {
     const [productItems, setProductItems] = useState<ImageType[]>([]);
     const [upwardIcon, setUpwardIcon] = useState<boolean>(false);
 
+    const navigate = useNavigate();
 
     // temporary change this -> 
 
@@ -155,8 +158,12 @@ function DashBoard() {
         })
     }
 
+    function NavigateAndMoveToTop(ImageName : string) {
+        navigate(`/products/category/${ImageName}`);
+        MoveToTheTop();
+    }
 
-
+    
 
     return (
         <>
@@ -212,7 +219,8 @@ function DashBoard() {
                     <div className={styles.featuredItems} >
                         {Images.map((image, index) => (
 
-                            <div key={index} id={styles.eachItem} >
+                            <div onClick={() => NavigateAndMoveToTop(image.name)}
+                            key={index} id={styles.eachItem} >
 
                                 <div style={{
                                     display: "flex", backgroundColor: image.backgroundColor,
@@ -246,6 +254,7 @@ function DashBoard() {
                     <div className={styles.popularProducts} >
 
                         <div style={{ width: '100%', display: "flex" }} >
+                            
                             <div style={{ width: "400px", display: "flex", flexDirection: "column", padding: "10px" }} >
                                 <span style={{ fontSize: "1.2rem", fontWeight: "bolder" }} >POPULAR PRODUCTS</span>
                                 <span style={{ color: "rgba(190, 187, 187, 0.562)" }} >Do not miss the current offers until the end of March.</span>
@@ -291,36 +300,8 @@ function DashBoard() {
                                 <span style={{ color: "rgba(190, 187, 187, 0.562)" }} >New products with updated stock.</span>
                             </div>
 
-                            <div className={styles.newProductGrid}  >
 
-                                <div className={styles.eachProductList} ></div>
-                                <div className={styles.eachProductList} ></div>
-                                <div className={styles.eachProductList} ></div>
-                                <div className={styles.eachProductList} ></div>
-                                <div className={styles.eachProductList} ></div>
-
-
-                                <div className={styles.eachProductList} ></div>
-                                <div className={styles.eachProductList} ></div>
-                                <div className={styles.eachProductList} ></div>
-                                <div className={styles.eachProductList} ></div>
-                                <div className={styles.eachProductList} ></div>
-
-
-                                <div className={styles.eachProductList} ></div>
-                                <div className={styles.eachProductList} ></div>
-                                <div className={styles.eachProductList} ></div>
-                                <div className={styles.eachProductList} ></div>
-                                <div className={styles.eachProductList} ></div>
-
-
-                                <div className={styles.eachProductList} ></div>
-                                <div className={styles.eachProductList} ></div>
-                                <div className={styles.eachProductList} ></div>
-
-
-                            </div>
-
+                            <ListOfProducts />
 
                         </div>
 

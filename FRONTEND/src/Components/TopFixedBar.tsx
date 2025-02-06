@@ -1,6 +1,6 @@
 import styles from "../Styling/DashBoard.module.css";
 import style from "../Styling/TopBar.module.css"
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import webLogo from "../assets/weblogo.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faSearch, faShoppingCart, faBars, faUser, faShoppingBag, faListUl, faSignOut, faClose } from '@fortawesome/free-solid-svg-icons';
@@ -103,6 +103,22 @@ function TopFixedBar() {
 
     }
 
+    function MoveToTheTop() {
+
+        window.scrollTo({
+
+            top: 0,
+            left: 0,
+            behavior: "smooth"
+        })
+    }
+
+
+
+    function NavigateAndMoveToTop(ImageName : string) {
+        navigate(`/products/category/${ImageName}`);
+        MoveToTheTop();
+    }
 
 
 
@@ -167,8 +183,8 @@ function TopFixedBar() {
 
                 <nav className={styles.navBar}>
 
-                    <div id={styles.logo} >
-                        <img src={webLogo} alt="web-logo" width="50%" height="100%" />
+                    <div style={{ cursor : "pointer" }} id={styles.logo} >
+                        <img   onClick={() => navigate("/")}  src={webLogo} alt="web-logo" width="50%" height="100%" />
                         <p style={{ fontSize: "1.25rem", fontWeight: "bolder" }}>Quick Cart</p>
                     </div>
 
@@ -252,8 +268,9 @@ function TopFixedBar() {
                         {dropDownCategory && <div className={styles.dropDownCategory}>
                             {Images.map((image: ImageType, index) => (
 
-                                <div onMouseOver={() => HandleHoveredList(image.name)} id={styles.eachCategoryItem} key={index} style={{
-                                    padding: "10px",
+                                <div  onClick={() => NavigateAndMoveToTop(image.name)}
+                                onMouseOver={() => HandleHoveredList(image.name)} id={styles.eachCategoryItem} key={index} style={{
+                                    padding: "10px", 
                                     display: 'flex', width: "100%", height: "40px", alignItems: "center", gap: "5px"
                                 }}   >
                                     <img src={image.src} alt="" height="100%" />
@@ -277,7 +294,7 @@ function TopFixedBar() {
 
 
                     {Images.map((image: ImageType, index) => (
-                        <div
+                        <div onClick={() => NavigateAndMoveToTop(image.name)}
                             key={index}
                             className={styles.items}
                             onMouseOver={() => HandleMouseOver(index, image.name)}

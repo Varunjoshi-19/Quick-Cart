@@ -200,7 +200,7 @@
      color: white;
      padding: 10px;
      width: 100%;
-     transition: color 200ms ,  background-color 200ms;
+     transition: color 200ms, background-color 200ms;
 
 }
 
@@ -373,7 +373,7 @@
 
 
 
-.Products .newProductsContainer {
+.newProductsContainer {
 
      display: flex;
      flex-direction: column;
@@ -381,7 +381,7 @@
 
 }
 
-.Products .newProductsContainer .newProductGrid {
+.newProductGrid {
 
      display: grid;
      gap: 10px;
@@ -391,12 +391,13 @@
 
 }
 
-.Products .newProductsContainer .newProductGrid .eachProductList {
+.newProductGrid .eachProductList {
 
      width: 220px;
      flex-shrink: 0;
      background-color: #202324;
      height: 350px;
+     cursor: pointer;
      border-radius: 10px;
 }
 
@@ -491,18 +492,18 @@
 }
 
 
-#ProfileMenuItems { 
+#ProfileMenuItems {
      display: block;
-     border : 1px solid rgba(138, 138, 138, 0.356);
+     border: 1px solid rgba(138, 138, 138, 0.356);
      position: absolute;
      background-color: #181A1B;
      border-radius: 10px;
      width: auto;
-     left : -220px;
-     bottom : -265px;
-     height : auto;
-     color : white;
-   
+     left: -220px;
+     bottom: -265px;
+     height: auto;
+     color: white;
+
 
 }
 
@@ -511,8 +512,8 @@
      display: flex;
      flex-direction: column;
      border-top: 1px solid rgba(138, 138, 138, 0.356);
-     gap : 15px ;
-     padding : 10px;
+     gap: 15px;
+     padding: 10px;
      align-items: flex-start;
      width: 100%;
      font-size: 1.2rem;
@@ -520,16 +521,16 @@
 
 
 .profileAccountOptions span {
-      width: 100%;
-      padding : 5px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color linear 400ms , color 200ms;
+     width: 100%;
+     padding: 5px;
+     border-radius: 5px;
+     cursor: pointer;
+     transition: background-color linear 400ms, color 200ms;
 }
 
 .profileAccountOptions span:hover {
-      background-color: #202324;
-      color :#573B8B;
+     background-color: #202324;
+     color: #573B8B;
 }
 
 

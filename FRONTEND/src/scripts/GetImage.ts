@@ -107,26 +107,52 @@ export const SvgImages = [
 
 ];
 
+const existingItems = [{
+    FASHION: ["MEN", "WOMEN"],
+    ELECTRONICS: ["MOBILES", "LAPTOPS", "SMART WATCH ACCESSORIES", "CAMERAS"],
+    FOOTWEAR: ["MEN FOOTWEAR", "WOMEN FOOTWEAR"],
+    BEAUTY: ["EYELINER", "MASCARA", "ROLLER"],
+    BAGS: ["MEN BAGS", "WOMEN BAGS"],
+    WELLNESS: ["ALMOND", "BEANS"],
+    GROCERIES: ["TAMATO", "ONIONS", "AVACADO"]
+}];
 
 export function CurrentHoverItemList(key: string) {
 
-    const existingItems = [{
-        FASHION: ["MEN", "WOMEN"],
-        ELECTRONICS: ["MOBILES", "LAPTOPS", "SMART WATCH ACCESSORIES", "CAMERAS"],
-        FOOTWEAR: ["MEN FOOTWEAR", "WOMEN FOOTWEAR"],
-        BEAUTY: ["EYELINER" , "MASCARA" , "ROLLER"],
-        BAGS: ["MEN BAGS", "WOMEN BAGS"],
-        WELLNESS: ["ALMOND" , "BEANS"],
-        GROCERIES: ["TAMATO" ,"ONIONS" , "AVACADO"]
-      }];
-      
-      
-      const values = existingItems.map((item) => {
+    const values = existingItems.map((item) => {
         const matchingItem = Object.entries(item).find(([category]) => category === key);
-        return matchingItem ? matchingItem[1] : null; 
-      }).filter(item => item !== null); 
-      
-      return values[0];
+        return matchingItem ? matchingItem[1] : null;
+    }).filter(item => item !== null);
+
+    return values[0];
+
+}
+
+export function ProductCategoryItem(): string[] {
+
+    const items = existingItems.map((item) => {
+
+        return Object.entries(item).map((each) => {
+
+            return each[1];
+        })
+
+    })
+
+    let eachItems: string[] = [];
+
+    items.map(item => {
+        item.map(underItem => {
+
+            underItem.map(singleItem => {
+                eachItems.push(singleItem);
+            })
+
+        })
+    })
+
+    return eachItems;
+
 
 }
 

@@ -5,6 +5,8 @@ import SignUp from "./Components/SignUp"
 import ShoppingCart from "./Components/ShoppingCart"
 import MyAccount from "./Components/MyAccount"
 import MyList from "./Components/MyList"
+import Product from "./Components/Product"
+import SingleProduct from "./Components/SingleProduct"
 function App() {
   return (
     <>
@@ -19,6 +21,11 @@ function App() {
           <Route  path="/my-account"  element ={<MyAccount/>} />
           <Route  path="/orders"  element ={<ShoppingCart/>} />
           <Route  path="/my-list"  element ={<MyList/>} />
+          <Route  path="/products/category/:id"  element ={<Product/>} />
+          <Route  path="/products/subCategory/:id"  element ={<Product/>} />
+          <Route  path="/product/:id"  element ={<SingleProduct/>} />
+
+          
           
 
           
