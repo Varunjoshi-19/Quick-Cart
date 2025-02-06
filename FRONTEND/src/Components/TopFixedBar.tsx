@@ -9,6 +9,7 @@ import { Countries } from "../scripts/getData";
 import { useNavigate } from "react-router-dom";
 
 import ProfileImage from "../assets/footwear.png";
+import { SlideToTop } from "../scripts/script";
 
 type ImageType = {
     src: string,
@@ -103,21 +104,11 @@ function TopFixedBar() {
 
     }
 
-    function MoveToTheTop() {
-
-        window.scrollTo({
-
-            top: 0,
-            left: 0,
-            behavior: "smooth"
-        })
-    }
-
 
 
     function NavigateAndMoveToTop(ImageName : string) {
         navigate(`/products/category/${ImageName}`);
-        MoveToTheTop();
+        SlideToTop();
     }
 
 
@@ -185,7 +176,7 @@ function TopFixedBar() {
 
                     <div style={{ cursor : "pointer" }} id={styles.logo} >
                         <img   onClick={() => navigate("/")}  src={webLogo} alt="web-logo" width="50%" height="100%" />
-                        <p style={{ fontSize: "1.25rem", fontWeight: "bolder" }}>Quick Cart</p>
+                        <span style={{ fontSize: "1.2rem", fontWeight: "bolder" , fontFamily : "cursive" }}>Quick Cart</span>
                     </div>
 
 

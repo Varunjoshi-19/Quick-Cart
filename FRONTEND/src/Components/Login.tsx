@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { useNavigate } from "react-router-dom";
 
+
 function Login() {
 
     const navigate = useNavigate();
@@ -95,7 +96,7 @@ function Login() {
             <div className={styles.SignContainer} >
 
                 <div style={{
-                    display: "flex", width: "100%",
+                    display: "flex", width: "100%", height : "95px", 
                     alignItems: "center", justifyContent: "center"
                 }} >
                     <img src={logo} alt="" width="100px" />

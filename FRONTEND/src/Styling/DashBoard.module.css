@@ -34,9 +34,10 @@
 }
 
 .navBar .locationMenu {
-     border-radius: 20px;
+     border-radius: 15px;
      border: 2px solid rgba(75, 75, 75, 0.678);
      display: flex;
+     padding : 5px;
      justify-content: space-around;
      align-items: center;
      width: 200px;
@@ -45,7 +46,7 @@
 }
 
 .locationMenu:hover {
-     background-color: rgba(48, 32, 48, 0.404);
+     background-color: rgba(92, 109, 141, 0.253);
      cursor: pointer;
 }
 

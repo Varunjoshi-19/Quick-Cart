@@ -1,8 +1,7 @@
 .singleProductContainer {
 
-     border : 1px solid white;
      height : auto;
-    width: 100%;
+      width: 100vw;
    
 
 }
@@ -16,10 +15,11 @@
 }
 
 .singleProductContainer .productImage .bigMainImage { 
-    width: 300px;
+    width: 100%;
     position: relative;
     cursor: zoom-in;
-    height: 300px;
+    height: 500px;
+    object-fit: cover;
     border-radius: 10px;
 }
 
@@ -51,8 +51,83 @@ object-position: 0 0;
 
 
 .singleProductContainer .productDescriptionAndAll { 
-    border : 1px solid red;
-    width: 100px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    display: flex; 
+    flex-direction: column;
+    width: auto;
+   
+    max-width: 70%;
+    gap : 10px;
     flex-shrink: 0;
     height : 300px;
+}
+
+
+.AddToCartButton { 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap : 10px;
+    font-weight: bolder;
+    font-size: 1.2rem;
+    font-family: sans-serif;
+    color : white;
+    background-color: #C10537;
+    border :none;
+    padding : 10px;
+    width: 200px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 400ms;
+}
+
+.AddToCartButton:hover {
+     background-color: #422A70;
+}
+
+#quntityChangeButton { 
+    width: 40px;
+    height: 40px;
+    border: none;
+    font-size: 1.2rem;
+    background-color: #202324;
+    color : white;
+    cursor: pointer;
+    font-weight: bolder;
+    border-radius: 50%;
+    transition: background-color 400ms;
+}
+
+#quntityChangeButton:hover {
+   
+     background-color: rgba(128, 128, 128, 0.438);
+}
+
+
+.someInfoAboutItem{ 
+    display: flex;
+    flex-direction: column;
+    height : auto;
+    width: 90%;
+    border-radius: 10px;
+    background-color: #1C1E1F;
+    padding: 40px;
+    border : 1px solid #5c5c5c5d;
+    margin-left: 50px;
+    gap : 20px;
+    
+}
+
+.someInfoAboutItem #infoAboutButtons { 
+    padding : 10px 15px; 
+    border-radius: 20px;
+    border : 1px solid rgba(160, 160, 160, 0.473);
+    color : white;
+    background-color: transparent;    
+    cursor: pointer;
+    transition: background-color 400ms;
+}
+
+hr  {
+     color : #763ce2de;
 }

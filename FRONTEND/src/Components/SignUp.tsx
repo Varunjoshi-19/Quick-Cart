@@ -169,7 +169,7 @@ function SignUp() {
             <div className={styles.SignContainer} style={{ width: "480px" }} >
 
                 <div style={{
-                    display: "flex", width: "100%",
+                    display: "flex", width: "100%",height : "90px",
                     alignItems: "center", justifyContent: "center"
                 }} >
                     <img src={logo} alt="" width="90px" />

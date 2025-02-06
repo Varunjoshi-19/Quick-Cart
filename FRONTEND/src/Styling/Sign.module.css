@@ -1,6 +1,7 @@
 .SignContainer {
      
 width : 400px;
+padding : 8px;
 height : auto;
 position: absolute;
 top : 50%;

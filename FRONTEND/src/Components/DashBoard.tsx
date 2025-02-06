@@ -8,6 +8,7 @@ import TopFixedBar from "./TopFixedBar";
 import BottomFixedBar from "./BottomFixedBar";
 import ListOfProducts from "./ListOfProducts";
 import { useNavigate } from "react-router-dom";
+import { SlideToTop } from "../scripts/script";
 
 
 
@@ -148,19 +149,10 @@ function DashBoard() {
 
     }
 
-    function MoveToTheTop() {
-
-        window.scrollTo({
-
-            top: 0,
-            left: 0,
-            behavior: "smooth"
-        })
-    }
 
     function NavigateAndMoveToTop(ImageName : string) {
         navigate(`/products/category/${ImageName}`);
-        MoveToTheTop();
+        SlideToTop();
     }
 
     
@@ -170,7 +162,7 @@ function DashBoard() {
 
 
 
-            {upwardIcon && <button onClick={MoveToTheTop} className={styles.upwardIcon} id={upwardIcon ? styles.visible : styles.close} >
+            {upwardIcon && <button onClick={SlideToTop} className={styles.upwardIcon} id={upwardIcon ? styles.visible : styles.close} >
                 <FontAwesomeIcon icon={faArrowUp} />
             </button>}
 
