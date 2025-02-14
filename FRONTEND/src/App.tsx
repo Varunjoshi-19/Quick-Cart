@@ -7,6 +7,7 @@ import MyAccount from "./Components/MyAccount"
 import MyList from "./Components/MyList"
 import Product from "./Components/Product"
 import SingleProduct from "./Components/SingleProduct"
+import Orders from "./Components/Orders"
 function App() {
   return (
     <>
@@ -19,7 +20,7 @@ function App() {
           <Route  path="/signup"  element ={<SignUp/>} />
           <Route  path="/cart"  element ={<ShoppingCart/>} />
           <Route  path="/my-account"  element ={<MyAccount/>} />
-          <Route  path="/orders"  element ={<ShoppingCart/>} />
+          <Route  path="/orders"  element ={<Orders/>} />
           <Route  path="/my-list"  element ={<MyList/>} />
           <Route  path="/products/category/:id"  element ={<Product/>} />
           <Route  path="/products/subCategory/:id"  element ={<Product/>} />
