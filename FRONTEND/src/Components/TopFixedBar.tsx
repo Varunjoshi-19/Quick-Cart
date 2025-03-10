@@ -174,7 +174,8 @@ function TopFixedBar() {
 
                 <nav className={styles.navBar}>
 
-                    <div style={{ cursor : "pointer" }} id={styles.logo} >
+                <div style={{ display : 'flex' , alignItems :"center" , gap : "20px" , justifyContent : "flex-start" ,  width : "70%" }}>
+                <div style={{ cursor : "pointer" }} id={styles.logo} >
                         <img   onClick={() => navigate("/")}  src={webLogo} alt="web-logo" width="50%" height="100%" />
                         <span style={{ fontSize: "1.2rem", fontWeight: "bolder" , fontFamily : "cursive" }}>Quick Cart</span>
                     </div>
@@ -193,6 +194,7 @@ function TopFixedBar() {
                         <input type="text" placeholder="Search for products..." />
                         <FontAwesomeIcon icon={faSearch} style={{ cursor: "pointer", color: "rgba(255, 255, 255, 0.473)" }} />
                     </div>
+                </div>
 
 
                     <div style={{ marginLeft: "120px", display: "flex", alignItems: "center", gap: "20px" }} >

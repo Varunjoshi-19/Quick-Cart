@@ -182,22 +182,28 @@ function DashBoard() {
                         <div key={index} id={styles.eachBanner}
                             style={{ translate: `${-100 * currentIndex}%` }}
                         >
-                            <img src={banner} alt="" height="100%" width="95%" style={{ borderRadius: "20px" }} />
+                            <img src={banner} alt="" style={{ display : "block",  clipPath: "inset(0 round 10px)", borderRadius : "20px" , height:"100%" , width:"100%"  , objectFit : "contain" }} />
 
                         </div>
 
 
                     ))}
 
-                    <button onClick={showPrevBanner} style={{
-                        zIndex: "3", position: "absolute", left: "10%", padding: "5px", width: "40px", height: "40px",
+                      <div style={{ display : "flex", alignItems : "center" , justifyContent : "space-around",
+                         objectFit : "contain", objectPosition : "center",
+                         position: "absolute",  padding: "5px", width: "100%", height: "100%" , 
+                           color: "white", fontSize: "1rem", fontWeight: "bolder", cursor: "pointer"
+                    }}>
+                      <button onClick={showPrevBanner} style={{
+                        zIndex: "3",   padding: "5px", width: "40px", height: "40px",
                         borderRadius: "50%", border: "none", backgroundColor: "#181A1B", color: "white", fontSize: "1rem", fontWeight: "bolder", cursor: "pointer"
                     }}>{"<"}</button>
                     <button onClick={showNextBanner} style={{
-                        position: "absolute", right: "15%", padding: "5px", width: "40px", height: "40px", cursor: "pointer",
+                       padding: "5px", width: "40px", height: "40px", cursor: "pointer",
                         borderRadius: "50%", border: "none", backgroundColor: "#181A1B", color: "white", fontSize: "1rem", fontWeight: "bolder"
                     }}>
                         {">"}</button>
+                      </div>
 
 
                 </div>
@@ -206,7 +212,7 @@ function DashBoard() {
 
                 <div className={styles.featuredCategory}>
 
-                    <p style={{ marginLeft: "20px", fontSize: "1.2rem", fontWeight: "bolder" }}>FEATURED CATEGORIES</p>
+                    <p style={{ width: "55%", marginLeft: "20px", fontSize: "1.2rem", fontWeight: "bolder" }}>FEATURED CATEGORIES</p>
 
                     <div className={styles.featuredItems} >
                         {Images.map((image, index) => (
@@ -219,7 +225,7 @@ function DashBoard() {
                                     alignItems: "center", justifyContent: "center", width: "100%",
                                     height: "100%", borderRadius: "50%"
                                 }}  >
-                                    <img src={image.src} alt="" width="60%" height="60%" />
+                                    <img src={image.src} alt="" style={{ width:"60%", objectFit :"contain" , height:"60%"  }}/>
                                 </div>
 
                                 <p>{image.name}</p>
