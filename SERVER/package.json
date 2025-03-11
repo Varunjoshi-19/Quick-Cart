@@ -1,0 +1,38 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node build/server.js",
+    "dev": "tsc-watch --onSuccess \"npm start\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/body-parser": "^1.19.5",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/graphql": "^14.2.3",
+    "@types/graphql-upload": "^17.0.0",
+    "@types/mongoose": "^5.11.96",
+    "@types/node": "^22.13.10",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.11.3",
+    "@graphql-tools/schema": "^10.0.21",
+    "@graphql-tools/utils": "^10.8.4",
+    "@types/multer": "^1.4.12",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "graphql": "^16.10.0",
+    "graphql-upload": "^17.0.0",
+    "mongoose": "^8.12.1",
+    "multer": "^1.4.5-lts.1",
+    "tsc-watch": "^6.2.1"
+  }
+}

@@ -8,6 +8,7 @@ import MyList from "./Components/MyList"
 import Product from "./Components/Product"
 import SingleProduct from "./Components/SingleProduct"
 import Orders from "./Components/Orders"
+import Admin from "./Components/Admin"
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
         <Routes>
 
           <Route  path="/"  element ={<DashBoard/>} />
+          <Route  path="/admin"  element ={<Admin/>} />
           <Route  path="/login"  element ={<Login/>} />
           <Route  path="/signup"  element ={<SignUp/>} />
           <Route  path="/cart"  element ={<ShoppingCart/>} />

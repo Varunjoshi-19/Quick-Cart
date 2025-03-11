@@ -199,7 +199,7 @@ function TopFixedBar() {
 
                     <div style={{ marginLeft: "120px", display: "flex", alignItems: "center", gap: "20px" }} >
 
-                        {!loggedIn ?
+                        {loggedIn ?
 
                             <button onClick={() => setShowProfileMenu(prev => !prev)} style={{
                                 backgroundColor: "#5e5e5e41", border: "none", position: "relative",
