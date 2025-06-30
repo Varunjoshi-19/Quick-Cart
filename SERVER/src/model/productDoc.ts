@@ -10,7 +10,7 @@ productName : {
      required : true
 },
 productPrice : {
-     type : String,
+     type : Number,
      required : true
 },
 productDesc : { 
@@ -18,6 +18,7 @@ productDesc : {
 },
 productImage : {
      data : Buffer,
+     required : true,
      contentType : String
 },
 productCategory  : { 

@@ -4,6 +4,7 @@ import logo from "../assets/weblogo.png"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../utils/getData";
 
 function SignUp() {
 
@@ -150,15 +151,30 @@ function SignUp() {
         setPhoneNumber(e.target.value);
     }
 
-    function handleSignUp(e: React.FormEvent<HTMLFormElement>) {
+    async function handleSignUp(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        const phone_number = Number(phoneNumber);
-        console.log(phone_number);
-
-        if (isNaN(phone_number)) {
-            alert("type number not letter or words not allowed");
+        const signUpData = {
+            name: nameValue,
+            phoneNo: phoneNumber || "",
+            email: emailValue,
+            password: passValue
         }
+
+        const response = await fetch(`${BACKEND_URL}/user/signup`, {
+            method: "POST",
+            headers: {
+                'Content-Type': "application/json"
+            },
+            body: JSON.stringify(signUpData)
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            console.log(result.message);
+
+        }
+        if (!response.ok) console.log(result.errorMessage);
 
     }
 
@@ -169,7 +185,7 @@ function SignUp() {
             <div className={styles.SignContainer} style={{ width: "480px" }} >
 
                 <div style={{
-                    display: "flex", width: "100%",height : "90px",
+                    display: "flex", width: "100%", height: "90px",
                     alignItems: "center", justifyContent: "center"
                 }} >
                     <img src={logo} alt="" width="90px" />
@@ -185,7 +201,7 @@ function SignUp() {
                             <span ref={nameRef} id={styles.spanLabel}>Name</span>
                             <input ref={nameInputRef} id={styles.inputField}
                                 value={nameValue} onChange={(e) => setNameValue(e.target.value)}
-                                type="text"   />
+                                type="text" />
                         </div>
 
                         <div id={styles.inputDiv} >
@@ -202,7 +218,7 @@ function SignUp() {
                         <span ref={emailRef} id={styles.spanLabel}>Email*</span>
                         <input ref={emailInputRef} id={styles.inputField}
                             value={emailValue} onChange={(e) => setEmailValue(e.target.value)}
-                            type="text" required/>
+                            type="text" required />
                     </div>
 
                     <div id={styles.inputDiv} >
@@ -223,7 +239,7 @@ function SignUp() {
                             border: "none", borderRadius: "10px", fontSize: "1.1rem", fontWeight: "bolder", color: "white", cursor: "pointer",
                             backgroundColor: "#392463"
                         }} >Log In</button>
-                        <button onClick={() => navigate("/")}  style={{
+                        <button onClick={() => navigate("/")} style={{
                             width: "150px", padding: "10px",
                             border: "1px solid #1877F2", borderRadius: "10px", fontSize: "1.1rem", fontWeight: "bolder", cursor: "pointer",
                             backgroundColor: "transparent", color: "#1877F2"

@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faShoppingBag } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {  DummyCartItems } from "../scripts/getData"
+import {  DummyCartItems } from "../utils/getData"
 
 
 function ShoppingCart() {

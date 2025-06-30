@@ -1,12 +1,12 @@
 import express  from "express";
-import Product from "../controllers/product";
 import multer, { memoryStorage } from "multer";
+import { addNewProduct } from "../controllers/product";
 const router = express.Router();
 const upload = multer({storage : memoryStorage()});
 
 
 
-router.post("/add-newProduct" , upload.single("file") , Product.handleAddNewProduct);
+router.post("/add-newProduct" , upload.single("file") , addNewProduct);
 
 
 

@@ -1,8 +1,7 @@
 import express from "express";
-import {expressMiddleware} from "@apollo/server/express4";
-import createGraphQLSever from "./graphql/graphql-server";
 import userRouter from "./routes/user";
 import productRouter from './routes/product';
+import otherRoutes from "./routes/otherRoutes";
 import cors from "cors"
 import mongoose from "mongoose";
 
@@ -11,17 +10,14 @@ const PORT = process.env.PORT || 4000;
 
 async function startingServer() {
 
-app.use(express.json());
-app.use(express.urlencoded({ extended : true }));
+app.use(express.json({limit : "50mb"}));
+app.use(express.urlencoded({limit :"50mb", extended : true }));
 app.use(cors());
 
-app.get("/" ,  (req ,res) =>  { 
-    res.send("server working");
-});
 
+app.use("/api" , otherRoutes);
 app.use("/user" , userRouter);
 app.use("/product" , productRouter);
-app.use("/graphql" , expressMiddleware(await createGraphQLSever()) as any);
 
 
 

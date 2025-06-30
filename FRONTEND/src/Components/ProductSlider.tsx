@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "../Styling/ProductList.module.css";
 import { useNavigate } from "react-router-dom";
-import {  SlideToTop } from "../scripts/script.js";
+import {  SlideToTop } from "../utils/script.js";
 
 
 type PropsType = {

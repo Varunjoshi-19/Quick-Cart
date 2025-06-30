@@ -1,7 +1,7 @@
 import TopFixedBar from './TopFixedBar'
 import styles from "../Styling/Orders.module.css";
 import BottomFixedBar from './BottomFixedBar'
-import { OrderItems } from "../scripts/getData"
+import { OrderItems } from "../utils/getData"
 
 function Orders() {
     return (

@@ -2,13 +2,13 @@ import styles from "../Styling/DashBoard.module.css";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, } from '@fortawesome/free-solid-svg-icons';
-import { Images, BannerImages, SalesImages, } from "../scripts/GetImage";
+import { Images, BannerImages, SalesImages, } from "../utils/GetImage";
 import ProductSlider from "./ProductSlider";
 import TopFixedBar from "./TopFixedBar";
 import BottomFixedBar from "./BottomFixedBar";
 import ListOfProducts from "./ListOfProducts";
 import { useNavigate } from "react-router-dom";
-import { SlideToTop } from "../scripts/script";
+import { SlideToTop } from "../utils/script";
 
 
 

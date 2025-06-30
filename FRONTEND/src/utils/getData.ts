@@ -1,4 +1,5 @@
 import shoes from "../assets/shoes1.jpg";
+export const BACKEND_URL = 'http://localhost:4000';
 
 export const Countries = [
 

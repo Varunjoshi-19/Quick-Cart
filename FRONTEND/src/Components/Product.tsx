@@ -1,14 +1,14 @@
 import BottomFixedBar from "./BottomFixedBar"
 import TopFixedBar from "./TopFixedBar"
 import styles from "../Styling/Product.module.css";
-import { ProductCategoryItem, SalesImages } from "../scripts/GetImage.ts";
+import { ProductCategoryItem, SalesImages } from "../utils/GetImage.ts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import bigCube from "../assets/bigCube.svg";
 import smallCube from "../assets/smallCube.svg";
 import threeLine from "../assets/threeLine.svg";
-import {Images } from "../scripts/GetImage.ts"
+import {Images } from "../utils/GetImage.ts"
 import ListOfProducts from "./ListOfProducts.tsx";
 
 

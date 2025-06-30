@@ -4,11 +4,15 @@ import logo from "../assets/weblogo.png"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../utils/getData";
+import { useUserAuthContext } from "../hooks/UserContext";
 
 
 function Login() {
 
     const navigate = useNavigate();
+    const { dispatch } = useUserAuthContext();
+
 
     const emailInputRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLSpanElement>(null);
@@ -81,16 +85,32 @@ function Login() {
         element.style.fontSize = "1.4rem";
     }
 
-    function handleForgetPassword() { 
+    function handleForgetPassword() {
 
     }
 
-    function handleLogIn(e : React.FormEvent<HTMLFormElement>) { 
+    const handleLogIn = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-   
+        const response = await fetch(`${BACKEND_URL}/user/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: emailValue, password: passValue })
+        })
 
-         
+        const result = await response.json();
+        if (response.ok) {
+            const user = result.user;
+             localStorage.setItem("user" , JSON.stringify(user));
+            dispatch({ type: 'set', payload: user });
+            navigate("/");
+        }
+
+
+
+
 
     }
 
@@ -101,13 +121,13 @@ function Login() {
             <div className={styles.SignContainer} >
 
                 <div style={{
-                    display: "flex", width: "100%", height : "95px", 
+                    display: "flex", width: "100%", height: "95px",
                     alignItems: "center", justifyContent: "center"
                 }} >
                     <img src={logo} alt="" width="100px" />
                 </div>
 
-                <p style={{ marginBottom: "40px" , fontSize : "1.5rem", marginLeft :"20px"  ,fontWeight : "bolder"}} >Log In</p>
+                <p style={{ marginBottom: "40px", fontSize: "1.5rem", marginLeft: "20px", fontWeight: "bolder" }} >Log In</p>
 
                 <form onSubmit={handleLogIn} className={styles.formContainer}  >
 
@@ -125,33 +145,36 @@ function Login() {
                             type="text" />
                     </div>
 
-                  <p onClick={handleForgetPassword} 
-                   style={{ marginLeft : "20px"  ,position : "absolute" , top : "52%" , cursor : "pointer"}}
-                  >Forgot Password?</p>
-                      
-                <div style={{ display : "flex" , justifyContent :"space-around" , marginTop :"20px" }} >
+                    <p onClick={handleForgetPassword}
+                        style={{ marginLeft: "20px", position: "absolute", top: "52%", cursor: "pointer" }}
+                    >Forgot Password?</p>
 
-                <button type="submit" style={{ width : "150px" , padding : "10px" , 
-                border : "none" , borderRadius : "10px", fontSize  : "1.1rem", fontWeight :"bolder" , color : "white",cursor: "pointer",
-                    backgroundColor : "#392463" }} >Log In</button>
-                <button onClick={() => navigate("/")} style={{ width : "150px" , padding : "10px" , 
-                border : "1px solid #1877F2" , borderRadius : "10px", fontSize  : "1.1rem", fontWeight :"bolder" ,cursor: "pointer" ,
-                backgroundColor : "transparent" , color : "#1877F2"
-                    }}>Cancel</button>
+                    <div style={{ display: "flex", justifyContent: "space-around", marginTop: "20px" }} >
 
-                </div>
+                        <button type="submit" style={{
+                            width: "150px", padding: "10px",
+                            border: "none", borderRadius: "10px", fontSize: "1.1rem", fontWeight: "bolder", color: "white", cursor: "pointer",
+                            backgroundColor: "#392463"
+                        }} >Log In</button>
+                        <button onClick={() => navigate("/")} style={{
+                            width: "150px", padding: "10px",
+                            border: "1px solid #1877F2", borderRadius: "10px", fontSize: "1.1rem", fontWeight: "bolder", cursor: "pointer",
+                            backgroundColor: "transparent", color: "#1877F2"
+                        }}>Cancel</button>
 
-                <span style={{ marginLeft : "20px" }} >Not Registered?<span  data-notregistered onClick={() => navigate("/signup")}>Sign Up</span>
-                </span> 
-                
+                    </div>
+
+                    <span style={{ marginLeft: "20px" }} >Not Registered?<span data-notregistered onClick={() => navigate("/signup")}>Sign Up</span>
+                    </span>
+
                 </form>
-            
-            <div style={{ display :"flex" , flexDirection : "column" , alignItems : "center" , padding : "10px" }}>
-                <p  style={{ fontSize : "1.2rem" , fontWeight: "bolder" }} >or continue with social account</p>
-                <button id={styles.googleButton}>
-                     <FontAwesomeIcon icon={faGoogle} style={{ color : "#4285F4" }}/>
-                    Log In With Google</button>
-            </div>
+
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "10px" }}>
+                    <p style={{ fontSize: "1.2rem", fontWeight: "bolder" }} >or continue with social account</p>
+                    <button id={styles.googleButton}>
+                        <FontAwesomeIcon icon={faGoogle} style={{ color: "#4285F4" }} />
+                        Log In With Google</button>
+                </div>
 
 
             </div>

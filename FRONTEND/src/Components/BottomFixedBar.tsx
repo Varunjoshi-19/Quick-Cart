@@ -3,7 +3,7 @@ import FooterContent from "./FooterContent";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {  faEnvelope  } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faTwitter, faInstagram, } from '@fortawesome/free-brands-svg-icons';
-import {  SvgImages } from "../scripts/GetImage";
+import {  SvgImages } from "../utils/GetImage";
 
 
 function BottomFixedBar() {
