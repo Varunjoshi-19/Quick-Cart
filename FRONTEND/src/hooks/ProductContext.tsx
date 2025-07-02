@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useMemo, useReducer, useState } from "react";
+import {  useContext, useEffect, useMemo, useReducer } from "react";
 import { createContext } from "react";
 import { BACKEND_URL } from "../utils/getData"
 import { ProductPayloadType } from "utils/interfaces";

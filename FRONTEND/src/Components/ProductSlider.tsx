@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "../Styling/ProductList.module.css";
 import { useNavigate } from "react-router-dom";
-import {  SlideToTop } from "../utils/script.js";
+import { SlideToTop } from "../utils/script.js";
 
 
 type PropsType = {
@@ -14,13 +14,13 @@ type PropsType = {
 
 function ProductSlider({ moveLeftSideScroll, moveRightSideScroll, ID }: PropsType) {
 
-   const [arrayOfList, setArrayOfList] = useState<number[]>([1, 2, 3, 4, 5, 5, 6, 6]);
- const navigate = useNavigate();
+    const [arrayOfList, setArrayOfList] = useState<number[]>([1, 2, 3, 4, 5, 5, 6, 6]);
+    const navigate = useNavigate();
 
-    function NavigateAndRestThings(id : any) {
-     
-    navigate(`/product/${id}`);
-    SlideToTop();
+    function NavigateAndRestThings(id: any) {
+
+        navigate(`/product/${id}`);
+        SlideToTop();
     }
 
 
@@ -31,7 +31,7 @@ function ProductSlider({ moveLeftSideScroll, moveRightSideScroll, ID }: PropsTyp
                 <div id={ID} className={styles.productList} style={{ scrollBehavior: "smooth" }} >
 
 
-                    {arrayOfList.map((each , index) => (
+                    {arrayOfList.map((each, index) => (
                         <div key={index} onClick={() => NavigateAndRestThings(each)} className={styles.eachProductList} >{each}</div>
 
                     ))}
