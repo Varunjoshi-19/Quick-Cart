@@ -5,330 +5,354 @@ import webLogo from "../assets/cart.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faSearch, faShoppingCart, faBars, faUser, faShoppingBag, faListUl, faSignOut, faClose } from '@fortawesome/free-solid-svg-icons';
 import { Images, CurrentHoverItemList } from "../utils/GetImage";
-import { BACKEND_URL, Countries } from "../utils/getData";
+import { BACKEND_URL, fetchAllCountries, searchForSpecificCountry } from "../utils/getData";
 import { useNavigate } from "react-router-dom";
 
 import { SlideToTop } from "../utils/script";
 import { useUserAuthContext } from "../hooks/UserContext";
-type ImageType = {
-src: string,
-name: string,
-backgroundColor: string,
-isSelected: boolean
-}
+import { useCartItemContext } from "../hooks/ItemContext";
+import { ImageType } from "../utils/interfaces"
 
 
 function TopFixedBar() {
 
-const [hidden, setHidden] = useState<boolean>(false);
-const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-const [dropDownCategory, setDropDownCategory] = useState<boolean>(false);
-const [updateCurrentItems, setUpdateCurrentItems] = useState<string[]>([]);
-const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
-const [locationApiBox, setLocationApiBox] = useState<boolean>(false);
+    const [hidden, setHidden] = useState<boolean>(false);
+    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const [dropDownCategory, setDropDownCategory] = useState<boolean>(false);
+    const [updateCurrentItems, setUpdateCurrentItems] = useState<string[]>([]);
+    const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
+    const [locationApiBox, setLocationApiBox] = useState<boolean>(false);
+    const [countryName, setCountryName] = useState<string>("");
 
-const navigate = useNavigate();
+    const navigate = useNavigate();
 
-const { user, loggedIn , dispatch } = useUserAuthContext();
+    const { user, loggedIn, dispatch } = useUserAuthContext();
+    const { productItems } = useCartItemContext();
+    const [countriesData, setCountriesData] = useState<any[]>([]);
 
+    let AllCountries: any[] = [];
 
-useEffect(() => {
+    useEffect(() => {
 
+        const fetchAllCountriesData = async () => {
+            AllCountries = await fetchAllCountries();
+            setCountriesData(AllCountries);
 
+        }
+        fetchAllCountriesData();
+    }, []);
 
-function handleScroll() {
-const currentScrollY = window.scrollY;
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            const matchedCountries = searchForSpecificCountry(countryName);
+            setCountriesData(matchedCountries);
+        }, 700);
 
-if (currentScrollY > 115) {
+        return () => clearTimeout(timeoutId);
+    }, [countryName]);
 
-setHidden(true);
 
-}
+    useEffect(() => {
 
-if (currentScrollY < 115) {
-setHidden(false);
-}
 
 
+        function handleScroll() {
+            const currentScrollY = window.scrollY;
 
+            if (currentScrollY > 115) {
 
-}
+                setHidden(true);
 
+            }
 
-window.addEventListener("scroll", handleScroll);
+            if (currentScrollY < 115) {
+                setHidden(false);
+            }
 
 
-return () => {
-window.removeEventListener("scroll", handleScroll);
-};
 
-}, [window.scrollY])
 
+        }
 
-useEffect(() => {
 
-if (locationApiBox) {
-document.body.style.overflow = "hidden";
-}
-else {
-document.body.style.overflow = "visible";
-document.body.style.overflowX = "hidden";
+        window.addEventListener("scroll", handleScroll);
 
 
-}
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
 
+    }, [window.scrollY])
 
-}, [locationApiBox]);
 
+    useEffect(() => {
 
-function HandleHoveredList(item: string) {
-const itemLists: string[] = CurrentHoverItemList(item);
-setUpdateCurrentItems(itemLists);
-}
+        if (locationApiBox) {
+            document.body.style.overflow = "hidden";
+        }
+        else {
+            document.body.style.overflow = "visible";
+            document.body.style.overflowX = "hidden";
 
 
+        }
 
-function HandleMouseOver(value: number | null, name: string) {
 
-if (value != null) {
-setHoveredIndex(value);
-HandleHoveredList(name);
-}
-else {
-setHoveredIndex(null);
-HandleHoveredList(name);
+    }, [locationApiBox]);
 
-}
 
-}
+    function HandleHoveredList(item: string) {
+        const itemLists: string[] = CurrentHoverItemList(item);
+        setUpdateCurrentItems(itemLists);
+    }
 
+    function HandleMouseOver(value: number | null, name: string) {
 
+        if (value != null) {
+            setHoveredIndex(value);
+            HandleHoveredList(name);
+        }
+        else {
+            setHoveredIndex(null);
+            HandleHoveredList(name);
 
-function NavigateAndMoveToTop(ImageName: string) {
-navigate(`/products/category/${ImageName}`);
-SlideToTop();
-}
+        }
 
-const handleLogoutUser = () => {
-     
-    dispatch({ type: "remove" });
-    localStorage.removeItem("user");
-    navigate("/" , {replace : true});
-}
+    }
 
+    function NavigateAndMoveToTop(ImageName: string) {
+        navigate(`/products/category/${ImageName}`);
+        SlideToTop();
+    }
 
+    const handleLogoutUser = () => {
 
-return (
-<>
+        dispatch({ type: "remove" });
+        localStorage.removeItem("user");
+        navigate("/", { replace: true });
+    }
 
 
-{/* <button style={{ position: "absolute", zIndex: "12" }} onClick={() => setLocationApiBox(prev => !prev)} >change</button> */}
+    return (
+        <>
 
+            {locationApiBox &&
 
-{locationApiBox &&
+                <div className={style.locationContainer} >
 
-<div className={style.locationContainer} >
+                    <div onClick={() => setLocationApiBox(false)} className={style.locationAPI} ></div>
 
-<div onClick={() => setLocationApiBox(false)} className={style.locationAPI} ></div>
+                    <div className={style.locations}>
 
-<div className={style.locations}>
+                        <div style={{ display: 'flex', flexDirection: "column", gap: "5px" }}>
 
-<div style={{ display: 'flex', flexDirection: "column", gap: "5px" }}>
+                            <span style={{ fontWeight: "bolder" }} >Choose your Delivery Location</span>
 
-<span style={{ fontWeight: "bolder" }} >Choose your Delivery Location</span>
+                            <span style={{ fontSize: "14px", fontWeight: "lighter" }}>Enter your address and we will specify the offer for your area.</span>
 
-<span style={{ fontSize: "14px", fontWeight: "lighter" }}>Enter your address and we will specify the offer for your area.</span>
+                            <button onClick={() => setLocationApiBox(false)} style={{
+                                position: "absolute", display: "flex", alignItems: "center", justifyContent: "center",
+                                backgroundColor: "#272A2C", color: "white", cursor: "pointer",
+                                width: "35px", height: "35px", border: "none", borderRadius: "50%",
+                                right: "10px", top: "10px"
+                            }} >
 
-<button onClick={() => setLocationApiBox(false)} style={{
-position: "absolute", display: "flex", alignItems: "center", justifyContent: "center",
-backgroundColor: "#272A2C", color: "white", cursor: "pointer",
-width: "35px", height: "35px", border: "none", borderRadius: "50%",
-right: "10px", top: "10px"
-}} >
+                                <FontAwesomeIcon icon={faClose} />
+                            </button>
 
-<FontAwesomeIcon icon={faClose} />
-</button>
+                        </div>
 
-</div>
+                        <div className={style.locationSearchCont} >
+                            <input id={style.searchInput} type="text"
+                                value={countryName}
+                                onChange={(e) => setCountryName(e.target.value)}
+                                placeholder="Search your area..." />
+                            <FontAwesomeIcon icon={faSearch} style={{ width: "10%", cursor: "pointer" }} />
+                        </div>
 
-<div className={style.locationSearchCont} >
-<input id={style.searchInput} type="text" placeholder="Search your area..." />
-<FontAwesomeIcon icon={faSearch} style={{ width: "10%", cursor: "pointer" }} />
-</div>
+                        <div className={style.allCountries} >
 
-<div className={style.allCountries} >
+                            {
+                                countriesData && countriesData.length > 0
 
-{Countries.map((country, index) => (
+                                    ?
+                                    countriesData.map((country) => (
+                                        <p id={style.eachCountry} key={country} >{country.country}</p>
+                                    ))
 
-<p id={style.eachCountry} key={index} >{country}</p>
+                                    :
+                                    <span className="self-center font-thin" >No Country Found</span>
 
-))}
+                            }
 
-</div>
 
-</div>
+                        </div>
 
+                    </div>
 
-</div>
 
+                </div>
 
-}
 
+            }
 
-<div className={styles.TopBar} id={hidden ? styles.hide : ""}>
 
-<nav className={styles.navBar}>
+            <div className={styles.TopBar} id={hidden ? styles.hide : ""}>
 
-<div style={{ display: 'flex', alignItems: "center", gap: "20px", justifyContent: "flex-start", width: "70%" }}>
-<div style={{ cursor: "pointer" }} id={styles.logo} >
-<img onClick={() => navigate("/")} src={webLogo} alt="web-logo" width="50%" height="100%"  
-style={{ objectFit : "contain" }}
-/>
-<span style={{ fontSize: "1.1rem", fontWeight: "bolder", fontFamily: "cursive" }}>Quick Cart</span>
-</div>
+                <nav className={styles.navBar}>
 
+                    <div style={{ display: 'flex', alignItems: "center", gap: "20px", justifyContent: "flex-start", width: "70%" }}>
+                        <div style={{ cursor: "pointer" }} id={styles.logo} >
+                            <img onClick={() => navigate("/")} src={webLogo} alt="web-logo" width="50%" height="100%"
+                                style={{ objectFit: "contain" }}
+                            />
+                            <span style={{ fontSize: "1.1rem", fontWeight: "bolder", fontFamily: "cursive" }}>Quick Cart</span>
+                        </div>
 
-<div onClick={() => setLocationApiBox(true)} className={styles.locationMenu} >
 
-<div style={{ height: "100%", width: "50", gap: "5px", display: "flex", flexDirection: "column" }} >
-<span style={{ fontSize: "15px", color: "#5E6566" }} >Your Location</span>
-<span style={{ color: "#573B8B", fontWeight: "bolder" }} >All</span>
-</div>
-<FontAwesomeIcon icon={faCaretDown} />
-</div>
+                        <div onClick={() => setLocationApiBox(true)} className={styles.locationMenu} >
 
-<div className={styles.inputBox} >
-<input type="text" placeholder="Search for products..." />
-<FontAwesomeIcon icon={faSearch} style={{ cursor: "pointer", color: "rgba(255, 255, 255, 0.473)" }} />
-</div>
-</div>
+                            <div style={{ height: "100%", width: "50", gap: "5px", display: "flex", flexDirection: "column" }} >
+                                <span style={{ fontSize: "15px", color: "#5E6566" }} >Your Location</span>
+                                <span style={{ color: "#573B8B", fontWeight: "bolder" }} >All</span>
+                            </div>
+                            <FontAwesomeIcon icon={faCaretDown} />
+                        </div>
 
+                        <div className={styles.inputBox} >
+                            <input type="text" placeholder="Search for products..." />
+                            <FontAwesomeIcon icon={faSearch} style={{ cursor: "pointer", color: "rgba(255, 255, 255, 0.473)" }} />
+                        </div>
+                    </div>
 
-<div style={{ marginLeft: "120px", display: "flex", alignItems: "center", gap: "20px" }} >
 
-{loggedIn ?
+                    <div style={{ marginLeft: "120px", display: "flex", alignItems: "center", gap: "20px" }} >
 
-<button onClick={() => setShowProfileMenu(prev => !prev)} style={{
-backgroundColor: "#5e5e5e41", border: "none", position: "relative",
-padding: "15px", borderRadius: "50%", cursor: "pointer"
-}}>
-<FontAwesomeIcon icon={faUser} color="white"
-style={{ fontSize: "1.5rem" }}
-/>
+                        {loggedIn ?
 
-{showProfileMenu && <div id={styles.ProfileMenuItems} >
+                            <button onClick={() => setShowProfileMenu(prev => !prev)} style={{
+                                backgroundColor: "#5e5e5e41", border: "none", position: "relative",
+                                padding: "15px", borderRadius: "50%", cursor: "pointer"
+                            }}>
+                                <FontAwesomeIcon icon={faUser} color="white"
+                                    style={{ fontSize: "1.5rem" }}
+                                />
 
-<div style={{ display: "flex", gap: "6px", justifyContent: "space-around", alignItems: "center", padding: "10px" }} >
-<img src={`${BACKEND_URL}/api/render/img/${user?.id}`} alt="" width="40px" />
+                                {showProfileMenu && <div id={styles.ProfileMenuItems} >
 
-<div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }} >
-<span style={{ fontSize: "1.2rem" }} >User</span>
-<span style={{ fontSize: "15px", color: "gray", fontWeight: "bold" }} >{user?.email || "user@gmail.com"} </span>
-</div>
+                                    <div style={{ display: "flex", gap: "6px", justifyContent: "space-around", alignItems: "center", padding: "10px" }} >
+                                        <img src={`${BACKEND_URL}/api/render/img/${user?.id}`} alt="" width="40px" />
 
-</div>
+                                        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }} >
+                                            <span style={{ fontSize: "1.2rem" }} >User</span>
+                                            <span style={{ fontSize: "15px", color: "gray", fontWeight: "bold" }} >{user?.email || "user@gmail.com"} </span>
+                                        </div>
 
+                                    </div>
 
-<div className={styles.profileAccountOptions} >
-<span onClick={() => navigate("/my-account")} style={{ display: "flex", gap: "10px" }}><FontAwesomeIcon icon={faUser} />My Account</span>
-<span onClick={() => navigate("/orders")} style={{ display: "flex", gap: "10px" }}><FontAwesomeIcon icon={faShoppingBag} />Orders</span>
-<span onClick={() => navigate("/my-list")} style={{ display: "flex", gap: "10px" }}><FontAwesomeIcon icon={faListUl} />My List</span>
-<span onClick={handleLogoutUser} style={{ display: "flex", gap: "10px" }}><FontAwesomeIcon icon={faSignOut} />Logout</span>
 
-</div>
+                                    <div className={styles.profileAccountOptions} >
+                                        <span onClick={() => navigate("/my-account")} style={{ display: "flex", gap: "10px" }}><FontAwesomeIcon icon={faUser} />My Account</span>
+                                        <span onClick={() => navigate("/orders")} style={{ display: "flex", gap: "10px" }}><FontAwesomeIcon icon={faShoppingBag} />Orders</span>
+                                        <span onClick={() => navigate("/my-list")} style={{ display: "flex", gap: "10px" }}><FontAwesomeIcon icon={faListUl} />My List</span>
+                                        <span onClick={handleLogoutUser} style={{ display: "flex", gap: "10px" }}><FontAwesomeIcon icon={faSignOut} />Logout</span>
 
-</div>}
+                                    </div>
 
-</button>
+                                </div>}
 
-:
+                            </button>
 
-<button onClick={() => navigate("/login")} className={styles.logInButton} >Log In</button>
+                            :
 
-}
+                            <button onClick={() => navigate("/login")} className={styles.logInButton} >Log In</button>
 
-<button onClick={() => navigate("/cart")} className={styles.shoppingCart} >
-<FontAwesomeIcon icon={faShoppingCart} color="white" />
-<p id={styles.totalItems} >0</p>
-</button>
+                        }
 
-</div>
+                        {
+                            user && <button onClick={() => navigate("/cart")} className={styles.shoppingCart} >
+                                <FontAwesomeIcon icon={faShoppingCart} color="white" />
+                                <p id={styles.totalItems} >{productItems.length}</p>
+                            </button>
+                        }
 
-</nav>
+                    </div>
 
+                </nav>
 
 
-<div className={styles.itemLists}  >
 
-<div onClick={() => setDropDownCategory(prevState => !prevState)} className={styles.allCategory} >
-<FontAwesomeIcon icon={faBars} />
-<span>ALL CATEGORIES</span>
-<FontAwesomeIcon icon={faCaretDown} />
+                <div className={styles.itemLists}  >
 
-{dropDownCategory && <div className={styles.dropDownCategory}>
-{Images.map((image: ImageType, index) => (
+                    <div onClick={() => setDropDownCategory(prevState => !prevState)} className={styles.allCategory} >
+                        <FontAwesomeIcon icon={faBars} />
+                        <span>ALL CATEGORIES</span>
+                        <FontAwesomeIcon icon={faCaretDown} />
 
-<div onClick={() => NavigateAndMoveToTop(image.name)}
-onMouseOver={() => HandleHoveredList(image.name)} id={styles.eachCategoryItem} key={index} style={{
-padding: "10px",
-display: 'flex', width: "100%", height: "40px", alignItems: "center", gap: "5px"
-}}   >
-<img src={image.src} alt="" height="100%" />
-<span>{image.name}</span>
+                        {dropDownCategory && <div className={styles.dropDownCategory}>
+                            {Images.map((image: ImageType, index) => (
 
-</div>
+                                <div onClick={() => NavigateAndMoveToTop(image.name)}
+                                    onMouseOver={() => HandleHoveredList(image.name)} id={styles.eachCategoryItem} key={index} style={{
+                                        padding: "10px",
+                                        display: 'flex', width: "100%", height: "40px", alignItems: "center", gap: "5px"
+                                    }}   >
+                                    <img src={image.src} alt="" className="h-5" />
+                                    <span>{image.name}</span>
 
-))}
+                                </div>
 
-<div id={styles.hoverSideBox} >
-{updateCurrentItems.map((item, index) => (
-<p key={index} style={{ width: "100%" }}  >{item}</p>
-))}
-</div>
+                            ))}
 
-</div>
-}
+                            <div id={styles.hoverSideBox} >
+                                {updateCurrentItems.map((item, index) => (
+                                    <p key={index} style={{ width: "100%" }}  >{item}</p>
+                                ))}
+                            </div>
 
-</div>
+                        </div>
+                        }
 
+                    </div>
 
 
-{Images.map((image: ImageType, index) => (
-<div onClick={() => NavigateAndMoveToTop(image.name)}
-key={index}
-className={styles.items}
-onMouseOver={() => HandleMouseOver(index, image.name)}
-onMouseLeave={() => HandleMouseOver(null, image.name)}
->
-<img src={image.src} alt="" height="100%" />
-<span>{image.name}</span>
 
-{hoveredIndex === index && (
+                    {Images.map((image: ImageType, index) => (
+                        <div onClick={() => NavigateAndMoveToTop(image.name)}
+                            key={index}
+                            className={styles.items}
+                            onMouseOver={() => HandleMouseOver(index, image.name)}
+                            onMouseLeave={() => HandleMouseOver(null, image.name)}
+                        >
+                            <img src={image.src} alt="" className="h-10" />
+                            <span>{image.name}</span>
 
-<div id={styles.itemHoveredList}  >
-{updateCurrentItems.map((item, i) => (
-<p key={i} >
-{item}
-</p>
-))}
+                            {hoveredIndex === index && (
 
-</div>
+                                <div id={styles.itemHoveredList}  >
+                                    {updateCurrentItems.map((item, i) => (
+                                        <p key={i} >
+                                            {item}
+                                        </p>
+                                    ))}
 
-)}
-</div>
-))}
+                                </div>
 
+                            )}
+                        </div>
+                    ))}
 
 
 
 
-</div>
 
-</div>
+                </div>
 
+            </div>
 
-</>
-)
+
+        </>
+    )
 }
 
 export default TopFixedBar

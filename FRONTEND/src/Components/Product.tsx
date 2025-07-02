@@ -196,7 +196,7 @@ function Product() {
 
             <div style={{ marginLeft: "20px", marginTop: "20px" }}  >
 
-              <ListOfProducts />
+              {/* <ListOfProducts /> */}
 
             </div>
 

@@ -3,17 +3,93 @@ import styles from "../Styling/Cart.module.css";
 import TopFixedBar from "./TopFixedBar";
 import cartImage from "../assets/cart.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faShoppingBag } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faShoppingBag, faTrash, faRemove } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import {  DummyCartItems } from "../utils/getData"
+import { useEffect, useState } from "react";
+import { useCartItemContext } from "../hooks/ItemContext";
+import { ACTIONS, LocalProductPayloadType } from "../utils/interfaces";
 
 
 function ShoppingCart() {
 
 
   const navigate = useNavigate();
-  const [cartItem, setCartItem] = useState<boolean>(true);
+  const [cartItem, setCartItem] = useState<boolean>(false);
+  const [selectedItems, setSelectedItems] = useState<LocalProductPayloadType[]>([]);
+  const [totalAmount, setTotalAmount] = useState<number>(0);
+  let amount = 0;
+  const { productItems, dispatch } = useCartItemContext();
+
+  useEffect(() => {
+
+    if (productItems.length == 0) return;
+    setCartItem(true);
+    setSelectedItems(productItems);
+    setTotalAmount(computeTheTotalAmount(productItems));
+  }, [productItems]);
+
+
+
+
+  function handleDiscardProduct(productId: string) {
+    setSelectedItems(prevProducts => {
+      const updatedProducts = prevProducts.filter(product => product.id !== productId);
+
+      if (updatedProducts.length === 0) {
+        setCartItem(false);
+
+      }
+      dispatch({ type: ACTIONS.SET_SELECTED_PRODUCTS, payload: updatedProducts });
+      localStorage.setItem("cartItems", JSON.stringify(updatedProducts));
+
+      return updatedProducts;
+    });
+  }
+
+  function computeTheTotalAmount(allItems: LocalProductPayloadType[]) {
+    let total = amount;
+
+    if (allItems && allItems.length > 0) {
+      allItems.forEach(each => {
+        total += Number(each.price) * each.count;
+      })
+
+      console.log("HERE THE TOTAL AMOUNT CALUCLATED", total);
+    }
+
+    amount = total;
+    return total;
+
+  }
+
+  function addToCart(id: string, count: number) {
+    setSelectedItems(prevItems => {
+      const updatedItems = prevItems.map(product => {
+        if (product.id === id) {
+          setTotalAmount(computeTheTotalAmount(updatedItems));
+          return { ...product, count: product.count + count }
+        } else {
+          return product;
+        }
+
+      });
+
+
+      const selectedProducts = updatedItems.filter(p => p.count > 0);
+      dispatch({ type: ACTIONS.SET_SELECTED_PRODUCTS, payload: selectedProducts });
+      localStorage.setItem("cartItems", JSON.stringify(selectedProducts));
+
+
+      if (selectedProducts.length === 0) {
+        setCartItem(false);
+      }
+
+      return selectedProducts;
+    });
+  }
+
+
+
 
   return (
     <>
@@ -26,7 +102,7 @@ function ShoppingCart() {
           <div className={styles.CartContentMiddleOne}>
             <div style={{ display: "flex", flexDirection: "column", marginLeft: "20px", marginTop: "30px", gap: "5px" }} >
               <span style={{ fontSize: "1.2rem", fontFamily: "sans-serif", fontWeight: "bolder" }} >YOUR CART</span>
-              <span style={{ fontFamily: "sans-serif" }} >There are 2 product in your cart</span>
+              <span style={{ fontFamily: "sans-serif" }} >There {productItems.length == 1 ? "is only" : "are"} {productItems.length} product in your cart</span>
             </div>
 
 
@@ -34,84 +110,106 @@ function ShoppingCart() {
 
               <div id={styles.allItemsCart}  >
 
-                <div style={{ display: "flex"  , justifyContent :"space-between" , padding : "10px"
-                , backgroundColor :"#282B2D", borderRadius :"10px", marginBottom :"10px"
-
-                 }} >
-                  <div>
-                    <span>Product</span>
-                  </div>
-
-                  <div style={{ display :"flex" , gap :"40px" }} >
-                    <span>Unit Price</span>
-                    <span>Quantity</span>
-                  </div>
-
-
-                  <div style={{ display :"flex" , gap :"40px" }} >
-                    <span>Subtotal</span>
-                    <span>Remove</span>
-                  </div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0" }}>
+                  <span style={{ flex: 2, fontWeight: 600, textAlign: "left", marginLeft: "10px" }}>Product</span>
+                  <span style={{ flex: 1, textAlign: "right" }}>Unit Price</span>
+                  <span style={{ flex: 1, textAlign: "right" }}>Quantity</span>
+                  <span style={{ flex: 1, textAlign: "right" }}>Subtotal</span>
+                  <span style={{ flex: 0.5, textAlign: "right", marginRight: "10px" }}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </span>
                 </div>
 
-{/* dummy cart items */}
- 
-                {DummyCartItems.map((item , index) => (
 
-                  <div  key={index} className={styles.eachAddItem} >
-                      <div style={{ display :"flex" , gap :"20px" }} >
-                      <img src={item.product.productImage} alt="" style={{ width :"50px" }} />
-                      <span>{item.product.productName}</span>
+                {selectedItems.map((item, index) => (
+                  <div key={index} style={{
+                    display: "flex",
+                    cursor: "pointer",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    background: "#232526",
+                    borderRadius: "8px",
+                    padding: "16px",
+                    marginBottom: "12px"
+                  }}>
+                    <div style={{ flex: 2, fontWeight: 600 }}>{item.name}</div>
+                    <div style={{ flex: 1, textAlign: "center" }}>₹{item.price}</div>
+                    <div style={{ flex: 1, textAlign: "center" }}>
+
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          className="bg-red-600 px-2 py-1 rounded text-lg"
+                          onClick={() => { addToCart(item.id, -1) }}
+                        >-</button>
+                        <span className="px-2">{item.count}</span>
+                        <button
+                          className="bg-red-600 px-2 py-1 rounded text-lg"
+                          onClick={() => { addToCart(item.id, 1) }}
+                        >+</button>
                       </div>
 
-                       <div style={{ display :"flex" , gap :"100px"  }}>
-                       <span>{item.price}</span>
-                       <span>{item.quntity}</span>
-                       </div>
 
-                       <div style={{ display :"flex" , gap :"80px" , marginLeft :"150px" }} >
-                        <span>{item.subtotal}</span>
-                        <span>X</span>
-                       </div>
+                    </div>
+                    <div style={{ flex: 1, textAlign: "center" }}>₹{Number(item.price) * item.count}</div>
+                    <button
+                      style={{
+                        background: "none",
+                        border: "none",
+                        color: "#C10537",
+                        fontSize: "1.2rem",
+                        cursor: "pointer"
+                      }}
+
+                      title="Remove"
+                      onClick={() => handleDiscardProduct(item.id)} // implement this function as needed
+                    >
+                      <FontAwesomeIcon icon={faRemove} />
+                    </button>
                   </div>
-
-
                 ))}
+
+
+
 
 
               </div>
 
 
               <div id={styles.cartTotals} >
- 
-                 <p style={{ padding : "10px 20px" , width : "95%"  , 
-                   fontWeight :"bolder",
-                  borderBottom :"1px solid #ffffff4d" }} >CART TOTALS</p>
-                  
-                     <div id={styles.cartTotItems } >
-                      <span>Sub Total</span>
-                      <span style={{ color : "#C10537"}} >123192301</span>
-                     </div>
-                     
-                     <div id={styles.cartTotItems } >
-                      <span>shipping</span>
-                      <span>free</span>
-                     </div>
 
-                     <div id={styles.cartTotItems } >
-                      <span>Deliver To</span>
-                      <span>India</span>
-                     </div>
+                <p style={{
+                  padding: "10px 20px", width: "95%",
+                  fontWeight: "bolder",
+                  borderBottom: "1px solid #ffffff4d"
+                }} >CART TOTALS</p>
 
-                     <div id={styles.cartTotItems } >
-                      <span>Total</span>
-                      <span style={{ color : "#C10537"}} >712389791</span>
-                     </div>
+                <div id={styles.cartTotItems} >
+                  <span>Sub Total</span>
+                  <span style={{ color: "#C10537" }} >
+                    {String(totalAmount)}
+                  </span>
+                </div>
 
-                     <button id={styles.checkoutBagCart} >
-                       <FontAwesomeIcon icon={faShoppingBag} style={{ fontSize : "1rem" , color : "white" }} />
-                       <span>Checkout</span> 
-                      </button>
+                <div id={styles.cartTotItems} >
+                  <span>shipping</span>
+                  <span>free</span>
+                </div>
+
+                <div id={styles.cartTotItems} >
+                  <span>Deliver To</span>
+                  <span>India</span>
+                </div>
+
+                <div id={styles.cartTotItems} >
+                  <span>Total</span>
+                  <span style={{ color: "#C10537" }} >712389791</span>
+                </div>
+
+                <button id={styles.checkoutBagCart} >
+                  <FontAwesomeIcon icon={faShoppingBag} style={{ fontSize: "1rem", color: "white" }} />
+                  <span>Checkout</span>
+                </button>
               </div>
 
             </div>

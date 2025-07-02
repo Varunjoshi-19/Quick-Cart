@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { fileTypeFromBuffer } from "file-type";
+import productDoc from "../model/productDoc";
+import { ProductType } from "../utils/interfaces";
 
 class OtherServices {
 
@@ -34,9 +36,36 @@ class OtherServices {
             res.setHeader("Content-Type", type.mime);
             res.setHeader("Cache-Control", "no-store");
             res.end(user.imageData);
-            
+
         } catch (error) {
             res.status(500).json({ errorMessage: "Failed to render image" });
+        }
+    }
+
+    async renderProductImage(req: Request, res: Response) {
+        const { productId } = req.params;
+
+        if (!productId) {
+            res.status(400).json({ errorMessage: "Missing productId" });
+            return;
+        }
+
+        try {
+            const product = await productDoc
+                .findById(productId)
+                .select("productImage")
+                .exec();
+
+            if (!product || !product.productImage || !product.productImage.data) {
+                res.status(404).json({ errorMessage: "Product image not found" });
+                return;
+            }
+
+            res.setHeader("Content-Type", product.productImage.contentType);
+            res.setHeader("Cache-Control", "no-store");
+            res.end(product.productImage.data);
+        } catch (error) {
+            res.status(500).json({ errorMessage: `Failed to render image: ${error}` });
         }
     }
 

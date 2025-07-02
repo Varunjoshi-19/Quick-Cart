@@ -31,8 +31,8 @@ function ProductSlider({ moveLeftSideScroll, moveRightSideScroll, ID }: PropsTyp
                 <div id={ID} className={styles.productList} style={{ scrollBehavior: "smooth" }} >
 
 
-                    {arrayOfList.map(each => (
-                        <div onClick={() => NavigateAndRestThings(each)} className={styles.eachProductList} >{each}</div>
+                    {arrayOfList.map((each , index) => (
+                        <div key={index} onClick={() => NavigateAndRestThings(each)} className={styles.eachProductList} >{each}</div>
 
                     ))}
 

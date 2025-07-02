@@ -9,6 +9,8 @@ import BottomFixedBar from "./BottomFixedBar";
 import ListOfProducts from "./ListOfProducts";
 import { useNavigate } from "react-router-dom";
 import { SlideToTop } from "../utils/script";
+import { useProductContext } from "../hooks/ProductContext";
+import { ProductPayloadType } from "utils/interfaces";
 
 
 
@@ -26,10 +28,13 @@ function DashBoard() {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [productItems, setProductItems] = useState<ImageType[]>([]);
     const [upwardIcon, setUpwardIcon] = useState<boolean>(false);
+    const [allProducts, setAllProducts] = useState<ProductPayloadType[] | null>([]);
 
     const navigate = useNavigate();
 
-    // temporary change this -> 
+    const { products } = useProductContext();
+
+
 
 
 
@@ -76,10 +81,10 @@ function DashBoard() {
     }, [currentIndex])
 
     useEffect(() => {
-
+        if (products) setAllProducts(products);
         setProductItems(Images);
 
-    }, [Images])
+    }, [products])
 
     useEffect(() => {
 
@@ -87,7 +92,6 @@ function DashBoard() {
 
 
     }, [window.scroll]);
-
 
 
 
@@ -150,27 +154,21 @@ function DashBoard() {
     }
 
 
-    function NavigateAndMoveToTop(ImageName : string) {
+    function NavigateAndMoveToTop(ImageName: string) {
         navigate(`/products/category/${ImageName}`);
         SlideToTop();
     }
 
-    
+
 
     return (
         <>
-
-
 
             {upwardIcon && <button onClick={SlideToTop} className={styles.upwardIcon} id={upwardIcon ? styles.visible : styles.close} >
                 <FontAwesomeIcon icon={faArrowUp} />
             </button>}
 
-
-
             <TopFixedBar />
-
-
 
             <div className={styles.bottomItems} >
 
@@ -182,28 +180,29 @@ function DashBoard() {
                         <div key={index} id={styles.eachBanner}
                             style={{ translate: `${-100 * currentIndex}%` }}
                         >
-                            <img src={banner} alt="" style={{ display : "block",  clipPath: "inset(0 round 10px)", borderRadius : "20px" , height:"100%" , width:"100%"  , objectFit : "contain" }} />
+                            <img src={banner} alt="" style={{ display: "block", clipPath: "inset(0 round 10px)", borderRadius: "20px", height: "100%", width: "100%", objectFit: "contain" }} />
 
                         </div>
 
 
                     ))}
 
-                      <div style={{ display : "flex", alignItems : "center" , justifyContent : "space-around",
-                         objectFit : "contain", objectPosition : "center",
-                         position: "absolute",  padding: "5px", width: "100%", height: "100%" , 
-                           color: "white", fontSize: "1rem", fontWeight: "bolder", cursor: "pointer"
+                    <div style={{
+                        display: "flex", alignItems: "center", justifyContent: "space-around",
+                        objectFit: "contain", objectPosition: "center",
+                        position: "absolute", padding: "5px", width: "100%", height: "100%",
+                        color: "white", fontSize: "1rem", fontWeight: "bolder", cursor: "pointer"
                     }}>
-                      <button onClick={showPrevBanner} style={{
-                        zIndex: "3",   padding: "5px", width: "40px", height: "40px",
-                        borderRadius: "50%", border: "none", backgroundColor: "#181A1B", color: "white", fontSize: "1rem", fontWeight: "bolder", cursor: "pointer"
-                    }}>{"<"}</button>
-                    <button onClick={showNextBanner} style={{
-                       padding: "5px", width: "40px", height: "40px", cursor: "pointer",
-                        borderRadius: "50%", border: "none", backgroundColor: "#181A1B", color: "white", fontSize: "1rem", fontWeight: "bolder"
-                    }}>
-                        {">"}</button>
-                      </div>
+                        <button onClick={showPrevBanner} style={{
+                            zIndex: "3", padding: "5px", width: "40px", height: "40px",
+                            borderRadius: "50%", border: "none", backgroundColor: "#181A1B", color: "white", fontSize: "1rem", fontWeight: "bolder", cursor: "pointer"
+                        }}>{"<"}</button>
+                        <button onClick={showNextBanner} style={{
+                            padding: "5px", width: "40px", height: "40px", cursor: "pointer",
+                            borderRadius: "50%", border: "none", backgroundColor: "#181A1B", color: "white", fontSize: "1rem", fontWeight: "bolder"
+                        }}>
+                            {">"}</button>
+                    </div>
 
 
                 </div>
@@ -218,14 +217,14 @@ function DashBoard() {
                         {Images.map((image, index) => (
 
                             <div onClick={() => NavigateAndMoveToTop(image.name)}
-                            key={index} id={styles.eachItem} >
+                                key={index} id={styles.eachItem} >
 
                                 <div style={{
                                     display: "flex", backgroundColor: image.backgroundColor,
                                     alignItems: "center", justifyContent: "center", width: "100%",
                                     height: "100%", borderRadius: "50%"
                                 }}  >
-                                    <img src={image.src} alt="" style={{ width:"60%", objectFit :"contain" , height:"60%"  }}/>
+                                    <img src={image.src} alt="" style={{ width: "60%", objectFit: "contain", height: "60%" }} />
                                 </div>
 
                                 <p>{image.name}</p>
@@ -252,7 +251,7 @@ function DashBoard() {
                     <div className={styles.popularProducts} >
 
                         <div style={{ width: '100%', display: "flex" }} >
-                            
+
                             <div style={{ width: "400px", display: "flex", flexDirection: "column", padding: "10px" }} >
                                 <span style={{ fontSize: "1.2rem", fontWeight: "bolder" }} >POPULAR PRODUCTS</span>
                                 <span style={{ color: "rgba(190, 187, 187, 0.562)" }} >Do not miss the current offers until the end of March.</span>
@@ -298,8 +297,9 @@ function DashBoard() {
                                 <span style={{ color: "rgba(190, 187, 187, 0.562)" }} >New products with updated stock.</span>
                             </div>
 
+                            {allProducts &&
+                                <ListOfProducts products={allProducts} />}
 
-                            <ListOfProducts />
 
                         </div>
 

@@ -1,47 +1,52 @@
 import { validate } from "graphql";
-import {  Schema , model } from "mongoose"
+import { Schema, model } from "mongoose"
 import { buffer } from "stream/consumers";
 
 
 const ProductSchema = new Schema({
 
-productName : {
-     type : String,
-     required : true
-},
-productPrice : {
-     type : Number,
-     required : true
-},
-productDesc : { 
-    type : String
-},
-productImage : {
-     data : Buffer,
-     required : true,
-     contentType : String
-},
-productCategory  : { 
-    type : String,
-    required : true
-},
+     productName: {
+          type: String,
+          required: true
+     },
+     productPrice: {
+          type: Number,
+          required: true
+     },
+     productDesc: {
+          type: String
+     },
+     productImage: {
+          data: {
+               type: Buffer,
+               required: true,
+          },
+          contentType: {
+               type: String,
+               required: true
+          }
+     },
+     productCategory: {
+          type: String,
+          required: true
+     },
 
-relaventImages : [
-     {
-        data : Buffer,
-        contentType : String
+     relaventImages: [
+          {
+               data: Buffer,
+               contentType: String
+          }
+     ],
+
+     AdditionalInfo: {
+          type: Schema.Types.Mixed,
+          default: {},
+
      }
-],
-
-AdditionalInfo : {
-     type : Schema.Types.Mixed,
-     default : {},
-
-}
 
 
-} , {timestamps : true});
+}, { timestamps: true });
 
 
 
-export default model("Products" , ProductSchema);
+export default model("Products", ProductSchema);

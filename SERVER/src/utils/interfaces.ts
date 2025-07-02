@@ -27,3 +27,9 @@ export interface ProductPayloadType {
     AdditionalInfo?: JSON;
 
 }
+
+
+export interface ProductType {
+  productImage: Buffer;
+  contentType: string;
+}

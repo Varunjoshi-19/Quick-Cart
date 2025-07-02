@@ -7,5 +7,8 @@ export function addNewProduct(req: Request, res: Response) {
 }
 
 
+export function getAllProducts(req : Request , res : Response) { 
+     ProductService.fetchProducts(req , res);
+}
 
 

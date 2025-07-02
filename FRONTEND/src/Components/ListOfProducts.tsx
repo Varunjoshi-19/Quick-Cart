@@ -1,38 +1,35 @@
-import { useState } from "react";
+import React, {  } from "react";
 import styles from "../Styling/DashBoard.module.css";
 import { useNavigate } from "react-router-dom";
 import { SlideToTop } from "../utils/script.js";
+import { ProductPayloadType } from "utils/interfaces.js";
+import ProductCard from "../small-components/ProductCard.tsx"
 
+interface props {
 
-function ListOfProducts() {
+    products: ProductPayloadType[]
 
-    const [arrayOfList, setArrayOfList] = useState<number[]>([1, 2, 3, 4, 5, 5, 6, 6,1, 2, 3, 4, 5, 5, 6, 61, 2, 3, 4, 5, 5, 6, 6]);
-  
+}
+
+function ListOfProducts({ products }: props) {
+
     const navigate = useNavigate();
+  
+    function NavigateAndRestThings(id: any) {
 
-
-    function NavigateAndRestThings(id : any) {
-     
         navigate(`/product/${id}`);
         SlideToTop();
-        }
+    }
 
     return (
         <>
 
-            <div className={styles.newProductGrid} >
-
-
-
-                {arrayOfList.map(each  => (
-                <div onClick={() => NavigateAndRestThings(each)}  className={styles.eachProductList} >{each}</div>
-                ))}
-
-
-            </div>
+             <div className={styles.newProductGrid} >                 
+               <ProductCard products={products}/>
+             </div>
 
         </>
     )
 }
 
-export default ListOfProducts
+export default React.memo(ListOfProducts);

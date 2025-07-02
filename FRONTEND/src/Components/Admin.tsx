@@ -7,8 +7,8 @@ function Admin() {
     const [productName, setProductName] = useState<string>("");
     const [productImage, setProductImage] = useState<File | null>(null);
     const [productDesc, setProductDesc] = useState<string>("");
-    const [error , setError] = useState<string | null>(null);
-    const [message , setMessage] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
+    const [message, setMessage] = useState<string | null>(null);
 
     const [productPrice, setProductPrice] = useState<string>("");
     const [additionalInfo, setAdditionalInfo] = useState<{} | null>(null);
@@ -20,7 +20,7 @@ function Admin() {
     useEffect(() => {
 
         function clearUi() {
-             
+
             const timeoutid = setTimeout(() => {
                 setError(null);
                 setMessage(null);
@@ -30,8 +30,8 @@ function Admin() {
         }
 
         clearUi();
-          
-    } , [error , message]);
+
+    }, [error, message]);
 
     function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
 
@@ -49,52 +49,52 @@ function Admin() {
         setProductPrice(e.target.value);
     }
 
-    function handleSetAdditional(e : React.ChangeEvent<HTMLInputElement>) {
-        setAdditionalInfo({ ...additionalInfo , [e.target.name] : e.target.value });
+    function handleSetAdditional(e: React.ChangeEvent<HTMLInputElement>) {
+        setAdditionalInfo({ ...additionalInfo, [e.target.name]: e.target.value });
     }
 
-    function ChangeCategory(e : React.ChangeEvent<HTMLSelectElement>) { 
+    function ChangeCategory(e: React.ChangeEvent<HTMLSelectElement>) {
         setCategory(e.target.value)
         setAdditionalInfo({});
     }
 
     async function uploadProductInfo() {
-          
-        
-        if(!checkandvalidateFields()) return;
+
+
+        if (!checkandvalidateFields()) return;
 
         const formdata = new FormData();
-        formdata.append("productName" , productName);
-        formdata.append("productPrice" , productPrice);
-        formdata.append("productCategory" , category);
+        formdata.append("productName", productName);
+        formdata.append("productPrice", productPrice);
+        formdata.append("productCategory", category);
 
-        
-         if(productDesc != "") formdata.append("productDesc" , productDesc);
 
-        if(productImage)  formdata.append("file" , productImage);
+        if (productDesc != "") formdata.append("productDesc", productDesc);
 
-        if(additionalInfo) formdata.append("AdditionalInfo"  , JSON.stringify(additionalInfo));
+        if (productImage) formdata.append("file", productImage);
 
-        const response = await fetch(`${BACKEND_URL}/product/add-newProduct` , {
-             method : "POST",
-             body : formdata
+        if (additionalInfo) formdata.append("AdditionalInfo", JSON.stringify(additionalInfo));
+
+        const response = await fetch(`${BACKEND_URL}/product/add-newProduct`, {
+            method: "POST",
+            body: formdata
         });
 
         const result = await response.json();
-        if(response.ok) {
-             console.log(result.message);
+        if (response.ok) {
+            console.log(result.message);
         }
 
     }
 
-    function checkandvalidateFields()   : boolean{
+    function checkandvalidateFields(): boolean {
 
-          if(productName == "" || productImage == null || productPrice == "" || category == "select") { 
+        if (productName == "" || productImage == null || productPrice == "" || category == "select") {
             setError("fields can not be empty")
-            return false; 
-          }
+            return false;
+        }
 
-          return true;
+        return true;
     }
 
 
@@ -116,7 +116,7 @@ function Admin() {
             </div>
 
 
-            <div style={{ display: 'flex', flexDirection: "column", gap: "20px" }} >
+            <div style={{ display: 'flex', color : "black", flexDirection: "column", gap: "20px" }} >
                 <h1>ADD NEW PRODUCT</h1>
                 <label htmlFor="">
                     Product Name : <input type="text" name='productName' required value={productName} onChange={(e) => setProductName(e.target.value)} />
@@ -141,29 +141,29 @@ function Admin() {
 
                         RAM : <input type="text" name='RAM' onChange={handleSetAdditional} />
                         color : <input type="text" name='COLOR' onChange={handleSetAdditional} />
-                        storage : <input type="text" name='STORAGE'  onChange={handleSetAdditional}/>
+                        storage : <input type="text" name='STORAGE' onChange={handleSetAdditional} />
                     </div>
                 }
 
-                {["fashion"  , "footwear"].includes(category)&&
+                {["fashion", "footwear"].includes(category) &&
 
                     <div>
                         size : <input type="text" name='SIZE' onChange={handleSetAdditional} />
-                        color : <input type="text" name='COLOR' onChange={handleSetAdditional}/>
+                        color : <input type="text" name='COLOR' onChange={handleSetAdditional} />
                     </div>
                 }
- 
+
 
 
                 <button onClick={uploadProductInfo} > Add Product </button>
-             <p style={{ color : "red" }} >{error} </p>
-             <p style={{ color : "green" }} >{message} </p>
+                <p style={{ color: "red" }} >{error} </p>
+                <p style={{ color: "green" }} >{message} </p>
 
 
-          
+
             </div>
 
-           
+
 
         </div>
     )

@@ -10,3 +10,18 @@ export function SlideToTop() {
     })
 
 }
+
+
+
+export function loadProductsFromLocalStorage() {
+        const storedProducts = localStorage.getItem("cartItems");
+        if (storedProducts) {
+            const parsedStoredProduct = JSON.parse(storedProducts);
+           return parsedStoredProduct;
+        }
+
+        return null;
+
+
+    }
+

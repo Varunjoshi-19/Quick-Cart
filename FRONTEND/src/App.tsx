@@ -10,6 +10,7 @@ import SingleProduct from "./Components/SingleProduct"
 import Orders from "./Components/Orders"
 import Admin from "./Components/Admin"
 import { useUserAuthContext } from "./hooks/UserContext"
+import Check from "./Components/page"
 function App() {
 
   const { user } = useUserAuthContext();
@@ -21,6 +22,7 @@ function App() {
         <Routes>
 
           <Route path="/" element={<DashBoard />} />
+          <Route path="/check" element={<Check />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
