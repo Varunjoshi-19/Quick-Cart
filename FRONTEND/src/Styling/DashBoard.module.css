@@ -294,9 +294,10 @@
 
 
 .featuredCategory {
-     width: 100%;
-     align-items: center;
      display: flex;
+     width: 100vw;
+     justify-content: center;
+     align-items: center;
      margin-top: 10px;
      flex-direction: column;
 
@@ -305,9 +306,8 @@
 .featuredCategory .featuredItems {
 
      display: flex;
-     width: 100vh;
-     align-items: center;
-     justify-content: space-around;
+     height : inherit;
+     width : 70vw;
 }
 
 .featuredCategory .featuredItems #eachItem {
@@ -412,6 +412,8 @@
      height: 180px;
      width: auto;
      gap: 10px;
+     padding : 2px;
+     margin-top: 10px;
 
 }
 

@@ -1,30 +1,29 @@
 import TopFixedBar from './TopFixedBar'
 import styles from "../Styling/Orders.module.css";
 import BottomFixedBar from './BottomFixedBar'
-import { OrderItems } from "../utils/getData"
+import { orders } from "../utils/getData"
+import OrderCard from '../small-components/OrderCard';
+import { useEffect } from 'react';
 
 function Orders() {
-    return (
 
+    useEffect(() => {
+
+        // TODO : fetch all the orders from the database and list them here .
+    }, [])
+
+
+    return (
 
         <>
             <TopFixedBar />
 
             <div className={styles.orderBarContainer}  >
-
-                <div className={styles.orderBar}>
-
-                    <p style={{ fontWeight: "bolder", fontSize: "1.5rem" }} >ORDERS</p>
-
-                    <div className={styles.orderGrid} >
-                        {OrderItems.map(item => (
-                            <span key={item} >{item}</span>
-                        ))}
-
-                    </div>
-
+                <div className="space-y-6 p-4 max-w-6xl mx-auto">
+                    {orders.map((order, index) => (
+                        <OrderCard key={index} order={order} />
+                    ))}
                 </div>
-
 
                 <BottomFixedBar />
 

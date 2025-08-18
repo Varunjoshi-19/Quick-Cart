@@ -1,26 +1,28 @@
-.orderBarContainer { 
+.orderBarContainer {
     position: absolute;
-    top :25%;
+    top: 25%;
 
 }
 
-.orderBar { 
-    padding :55px;  
+.orderBar {
+    padding: 55px;
     height: auto;
     width: 100vw;
 }
 
-.orderBar .orderGrid { 
+.orderBar .orderGrid {
     display: grid;
     height: 40px;
-    grid-template-columns: repeat(13 , 1fr);
+    margin-bottom: 20px;
+    grid-template-columns: repeat(13, 1fr);
 }
 
 .orderBar .orderGrid span {
     display: flex;
     font-size: 15px;
+    max-width: 140px;
+
     align-items: center;
     justify-content: center;
-    border : 1px solid white;
+    border: 1px solid white;
 }
- 

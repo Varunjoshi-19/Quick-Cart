@@ -54,7 +54,6 @@ export class ProductService {
 
      }
 
-
      public static async fetchProducts(req: Request, res: Response) {
 
           try {

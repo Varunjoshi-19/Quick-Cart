@@ -22,6 +22,14 @@ import shirtImage from "../assets/shirt.svg";
 import discountImage from "../assets/discount.svg";
 import vehicleImage from "../assets/vehicle.svg";
 import priceImage from "../assets/price.svg";
+import offer1 from "../assets/offer1.png";
+import offer2 from "../assets/offer2.png";
+import offer3 from "../assets/offer3.png";
+import offer4 from "../assets/offer4.png";
+import offer6 from "../assets/offer6.png";
+import offer7 from "../assets/offer7.png";
+import offer8 from "../assets/offer8.png";
+
 
 
 export const Images = [
@@ -72,6 +80,9 @@ export const Images = [
 
 
 ]
+
+export const OFFERS = [offer1, offer2, offer3, offer4];
+export const OFFERS2 = [offer6, offer7, offer8];
 
 export const BannerImages = [banner1, banner2, banner3, banner4, banner5, banner6];
 

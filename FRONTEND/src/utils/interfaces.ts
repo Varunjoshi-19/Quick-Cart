@@ -11,7 +11,7 @@ export interface ProductPayloadType {
 
 export interface LocalProductPayloadType {
     id: string;
-    count: number;
+    quantity: number;
     name: string;
     price: string;
     category: string;
@@ -28,11 +28,36 @@ export type ImageType = {
     isSelected: boolean
 }
 
+export interface OrderPlacePayload {
+    orderId: string;
+    paymentId: string;
+    productName: string;
+    userName: string;
+    phone: number;
+    quantity: number;
+    address: string;
+    totalAmount: number;
+    orderStatus: string;
+    date: Date
+}
+
+
+
+export interface UserPaymentProps {
+
+    name: string;
+    email: string;
+    amount: number;
+    currency: string;
+    mobileNumber: number;
+}
+
 
 
 export const ACTIONS = {
 
     SET_SELECTED_PRODUCTS: 'SET_SELECTED_PRODUCTS',
+    SET_TOTAL_PRICE: 'SET_TOTAL_PRICE',
 
 } as const;
 
@@ -40,15 +65,13 @@ export const ACTIONS = {
 export type ACTIONS = {
 
     type: typeof ACTIONS[keyof typeof ACTIONS];
-    payload?: LocalProductPayloadType[] | null;
+    payload?: any | null;
 }
-
-
-
 
 
 export type State = {
     cartItems: LocalProductPayloadType[] | null;
+    totalPrice: number;
 
 }
 

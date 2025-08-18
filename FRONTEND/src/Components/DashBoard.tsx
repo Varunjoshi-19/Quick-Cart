@@ -2,7 +2,7 @@ import styles from "../Styling/DashBoard.module.css";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, } from '@fortawesome/free-solid-svg-icons';
-import { Images, BannerImages, SalesImages, } from "../utils/GetImage";
+import { Images, BannerImages, SalesImages, OFFERS, OFFERS2, } from "../utils/GetImage";
 import ProductSlider from "./ProductSlider";
 import TopFixedBar from "./TopFixedBar";
 import BottomFixedBar from "./BottomFixedBar";
@@ -33,10 +33,6 @@ function DashBoard() {
     const navigate = useNavigate();
 
     const { products } = useProductContext();
-
-
-
-
 
 
 
@@ -81,7 +77,9 @@ function DashBoard() {
     }, [currentIndex])
 
     useEffect(() => {
-        if (products) setAllProducts(products);
+        if (products) {
+            setAllProducts(products);
+        }
         setProductItems(Images);
 
     }, [products])
@@ -161,6 +159,8 @@ function DashBoard() {
 
 
 
+
+
     return (
         <>
 
@@ -216,13 +216,13 @@ function DashBoard() {
                     <div className={styles.featuredItems} >
                         {Images.map((image, index) => (
 
-                            <div onClick={() => NavigateAndMoveToTop(image.name)}
+                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexGrow: "1", width: "inherit", height: "inherit" }} onClick={() => NavigateAndMoveToTop(image.name)}
                                 key={index} id={styles.eachItem} >
 
                                 <div style={{
                                     display: "flex", backgroundColor: image.backgroundColor,
-                                    alignItems: "center", justifyContent: "center", width: "100%",
-                                    height: "100%", borderRadius: "50%"
+                                    alignItems: "center", justifyContent: "center", width: "6rem",
+                                    height: "6rem", borderRadius: "50%", flexShrink: "0", flexGrow: "1   "
                                 }}  >
                                     <img src={image.src} alt="" style={{ width: "60%", objectFit: "contain", height: "60%" }} />
                                 </div>
@@ -298,7 +298,9 @@ function DashBoard() {
                             </div>
 
                             {allProducts &&
-                                <ListOfProducts products={allProducts} />}
+                                <ListOfProducts products={allProducts} />
+
+                            }
 
 
                         </div>
@@ -306,13 +308,14 @@ function DashBoard() {
 
                         <div className={styles.salesOffers}>
 
+
                             <div id="salesOfferI" className={styles.salesItemContainer} >
 
-                                <img src="" alt="" style={{ borderRadius: "10px", border: "1px solid white", width: "300px", height: "inherit" }} />
-                                <img src="" alt="" style={{ borderRadius: "10px", border: "1px solid white", width: "300px", height: "inherit" }} />
-                                <img src="" alt="" style={{ borderRadius: "10px", border: "1px solid white", width: "300px", height: "inherit" }} />
-                                <img src="" alt="" style={{ borderRadius: "10px", border: "1px solid white", width: "300px", height: "inherit" }} />
+                                {OFFERS.map(each => (
 
+                                    <img src={each} alt="" style={{ borderRadius: "10px", width: "300px", height: "inherit" }} />
+
+                                ))}
                             </div>
 
 
@@ -352,9 +355,10 @@ function DashBoard() {
 
                 <div className={styles.salesOff} >
 
-                    <img src="" alt="" style={{ borderRadius: "10px", border: "1px solid white", width: "400px", height: "inherit" }} />
-                    <img src="" alt="" style={{ borderRadius: "10px", border: "1px solid white", width: "400px", height: "inherit" }} />
-                    <img src="" alt="" style={{ borderRadius: "10px", border: "1px solid white", width: "400px", height: "inherit" }} />
+                    {OFFERS2.map(each => (
+
+                        <img src={each} alt="" style={{ borderRadius: "10px", border: "1px solid white", width: "400px", height: "inherit" }} />
+                    ))}
 
                 </div>
 
@@ -374,9 +378,6 @@ function DashBoard() {
                 <BottomFixedBar />
 
             </div>
-
-
-
 
 
 

@@ -11,16 +11,84 @@ const existingItems = [{
 function getProduct(key) {
 
 
-  const values = existingItems.map((item) => {
-    const matchingItem = Object.entries(item).find(([category, value]) => category === key);
-    return matchingItem ? matchingItem[1] : null;
-  }).filter(item => item !== null);
+  let productlist = {};
+  const [value] = existingItems.map(item => {
+    return Object.entries(item).find(([category, list]) => {
+      console.log("run times");
+      if (category == key) {
+        productlist = list;
+        return item;
+      }
+      return null;
 
-  console.log(values[0]);
+
+    })
+
+  })
+
+
+  console.log(value)
+}
+
+
+
+const productList = [
+
+  {
+    id: 1,
+    produtctName: "tv",
+    price: 12000,
+    quantity: 0
+  },
+
+  {
+    id: 2,
+    produtctName: "mobile",
+    price: 15000,
+    quantity: 0
+  },
+  {
+    id: 3,
+    produtctName: "washing machine",
+    price: 5000,
+    quantity: 0
+  },
+  {
+    id: 4,
+    produtctName: "computer",
+    price: 23000,
+    quantity: 0
+  }
+
+
+];
+
+
+function addToCartProduct(count, productId) {
+
+  let i = 0;
+  const updatedProduct = productList.find(product => {
+
+    if (product.id == productId) {
+      product.quantity += count;
+      return product;  // only stop the iteration if it find the turthy value.
+    }
+    console.log(`in ${i++} iteration not found`);
+    return null;
+
+
+  })
+
+  console.log(updatedProduct);
+
 }
 
 
 
 
-ProductCategoryItem();
+addToCartProduct(2, 3);
+// addToCartProduct(-1, 2);
+// addToCartProduct(3, 2);
+
+
 // getProduct("FASHION");

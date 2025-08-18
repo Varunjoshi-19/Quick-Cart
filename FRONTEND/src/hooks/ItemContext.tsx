@@ -5,6 +5,7 @@ import { loadProductsFromLocalStorage } from "../utils/script";
 
 export type ItemContextType = {
     productItems: LocalProductPayloadType[];
+    totalPrice: number;
     dispatch: Dispatch<ACTIONS>;
 }
 
@@ -27,6 +28,9 @@ const method = (state: State, action: ACTIONS) => {
     switch (action.type) {
 
         case ACTIONS.SET_SELECTED_PRODUCTS: return { ...state, cartItems: action.payload || null }
+        case ACTIONS.SET_TOTAL_PRICE:
+            return { ...state, totalPrice: typeof action.payload === 'number' ? action.payload : state.totalPrice };
+
 
         default: return state;
     }
@@ -35,7 +39,7 @@ const method = (state: State, action: ACTIONS) => {
 
 export const ItemContextProvider = ({ children }: { children: React.ReactNode }) => {
 
-    const [state, dispatch] = useReducer(method, { cartItems: null });
+    const [state, dispatch] = useReducer(method, { cartItems: null, totalPrice: 0 });
 
     const productItems: LocalProductPayloadType[] = useMemo(
         () => state.cartItems ?? [],
@@ -44,8 +48,10 @@ export const ItemContextProvider = ({ children }: { children: React.ReactNode })
 
 
     function loadProducts() {
-        const parsedStoredProduct = loadProductsFromLocalStorage();
-        dispatch({ type: ACTIONS.SET_SELECTED_PRODUCTS, payload: parsedStoredProduct });
+        const parsedStoredProduct: any = loadProductsFromLocalStorage();
+        if (parsedStoredProduct) {
+            dispatch({ type: ACTIONS.SET_SELECTED_PRODUCTS, payload: parsedStoredProduct });
+        }
 
 
     }
@@ -57,7 +63,7 @@ export const ItemContextProvider = ({ children }: { children: React.ReactNode })
 
 
     return (
-        <cartContext.Provider value={{ productItems: productItems, dispatch }}>
+        <cartContext.Provider value={{ productItems: productItems, dispatch, totalPrice: state.totalPrice }}>
             {children}
         </cartContext.Provider>
     )

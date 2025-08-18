@@ -1,4 +1,4 @@
-import {  useContext, useEffect, useMemo, useReducer } from "react";
+import { useContext, useEffect, useMemo, useReducer } from "react";
 import { createContext } from "react";
 import { BACKEND_URL } from "../utils/getData"
 import { ProductPayloadType } from "utils/interfaces";
@@ -55,27 +55,26 @@ export const ProductContextProvider = ({ children }: { children: React.ReactNode
 
     const [state, dispatch] = useReducer(method, { products: null });
 
-const value = useMemo(() => ({ products: state.products }), [state.products]);
+    const value = useMemo(() => ({ products: state.products }), [state.products]);
 
-    
-useEffect(() => {
-    const fetchAllProduct = async () => {
-        try {
-            const response = await fetch(`${BACKEND_URL}/product/get-products`);
-            const result = await response.json();
-            if (response.ok) {
-                console.log("product"  , result.products);
-                dispatch({ type: ACTIONS.SET_PRODUCTS, payload: result.products });
-            } else {
-                console.log("failed to fetch products");
+
+    useEffect(() => {
+        const fetchAllProduct = async () => {
+            try {
+                const response = await fetch(`${BACKEND_URL}/product/get-products`);
+                const result = await response.json();
+                if (response.ok) {
+                    dispatch({ type: ACTIONS.SET_PRODUCTS, payload: result.products });
+                } else {
+                    console.log("failed to fetch products");
+                }
+            } catch (error) {
+                console.log(error);
             }
-        } catch (error) {
-            console.log(error);
-        }
-    };
+        };
 
-    fetchAllProduct();
-}, []); 
+        fetchAllProduct();
+    }, []);
 
 
 

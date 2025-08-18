@@ -1,6 +1,6 @@
 // components/ProductCard.tsx
-import { Card, CardContent, CardFooter } from "../Components/ui/card";
-import { AspectRatio } from "../Components/ui/aspect-ratio";
+import { Card, CardContent, CardFooter } from "../comp/components/ui/card";
+import { AspectRatio } from "../comp/components/ui/aspect-ratio";
 import { ACTIONS, LocalProductPayloadType, ProductPayloadType } from "../utils/interfaces";
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../utils/getData";
@@ -18,7 +18,6 @@ interface ProductCardProps {
 
 export default function ProductCard({ products }: ProductCardProps) {
 
-
     const [productCounter, setProductCounter] = useState<LocalProductPayloadType[]>([]);
     const { user } = useUserAuthContext();
     const navigate = useNavigate();
@@ -32,7 +31,7 @@ export default function ProductCard({ products }: ProductCardProps) {
             createdProduct = products.map(product => {
                 return {
                     id: product._id,
-                    count: 0,
+                    quantity: 0,
                     name: product.productName,
                     price: product.productPrice,
                     category: product.productCategory,
@@ -41,15 +40,19 @@ export default function ProductCard({ products }: ProductCardProps) {
                 } as LocalProductPayloadType;
             });
 
-            const alreadyAddedProduts: any = checkForAlreadyAddedProducts(createdProduct);
+            const alreadyAddedProducts: any = checkForAlreadyAddedProducts(createdProduct);
+            if (alreadyAddedProducts && alreadyAddedProducts != "") {
+                setProductCounter(alreadyAddedProducts);
+                return;
+            }
 
-
-            console.log(alreadyAddedProduts);
-            setProductCounter(alreadyAddedProduts);
+            setProductCounter(createdProduct);
 
         }
 
-        intializeProducts();
+        if (products != null) {
+            intializeProducts();
+        }
 
     }, [products]);
 
@@ -57,18 +60,18 @@ export default function ProductCard({ products }: ProductCardProps) {
 
         const products = loadProductsFromLocalStorage();
 
-        if (products) {
+        if (Array.isArray(products)) {
             const alreadyAddedProducts = createdProduct.map(product => {
                 const match = products.find((product1: any) => product1.id === product.id);
-                return match ? { ...product, count: match.count } : product;
+                return match ? { ...product, quantity: match.quantity } : product;
             });
 
             return alreadyAddedProducts;
         }
 
+        return createdProduct;
 
     }
-
 
     function addToCart(id: string, count: number) {
 
@@ -77,23 +80,25 @@ export default function ProductCard({ products }: ProductCardProps) {
             return;
         }
 
-        const updatedCounter = productCounter.map(product => {
-            if (product.id === id) {
-                return { ...product, count: product.count + count };
-            }
-            return product;
+
+        setProductCounter((prevProducts) => {
+
+            const updatedCounter = prevProducts.map(product => {
+                if (product.id === id) {
+                    return { ...product, quantity: product.quantity + count };
+                }
+                return product;
+            });
+
+            const selectedProducts = updatedCounter.filter(p => p.quantity > 0);
+            dispatch({ type: ACTIONS.SET_SELECTED_PRODUCTS, payload: selectedProducts });
+            localStorage.setItem("cartItems", JSON.stringify(selectedProducts));
+
+            return updatedCounter;
         });
 
 
-
-        setProductCounter(updatedCounter);
-        const selectedProducts = updatedCounter.filter(p => p.count > 0);
-        dispatch({ type: ACTIONS.SET_SELECTED_PRODUCTS, payload: selectedProducts });
-        localStorage.setItem("cartItems", JSON.stringify(selectedProducts));
-
     }
-
-
 
 
     return (
@@ -119,7 +124,7 @@ export default function ProductCard({ products }: ProductCardProps) {
                             {
 
                                 (() => {
-                                    const counter = productCounter.find(p => p.id === product._id)?.count;
+                                    const counter = productCounter.find(p => p.id === product._id)?.quantity;
                                     if (counter === 0) {
                                         return (
                                             <button

@@ -33,3 +33,5 @@ export interface ProductType {
   productImage: Buffer;
   contentType: string;
 }
+
+

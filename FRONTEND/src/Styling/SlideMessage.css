@@ -1,0 +1,38 @@
+.slide-message {
+  position: fixed;
+  top: 20px;
+  right: -400px;
+  background-color: #3E2C73;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  min-width: 250px;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: right 0.4s ease-in-out;
+}
+
+.slide-in {
+  right: 20px;
+}
+
+.slide-out {
+  right: -400px;
+}
+
+.message-content {
+  font-size: 16px;
+}
+
+.progress-bar {
+  height: 4px;
+  background-color: #C10537;
+  width: 100%;
+  margin-top: 8px;
+  animation: progressBar linear forwards;
+}
+
+@keyframes progressBar {
+  from { width: 100%; }
+  to { width: 0%; }
+}

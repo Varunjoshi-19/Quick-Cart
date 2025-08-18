@@ -1,4 +1,4 @@
-import React, {  } from "react";
+import React, { } from "react";
 import styles from "../Styling/DashBoard.module.css";
 import { useNavigate } from "react-router-dom";
 import { SlideToTop } from "../utils/script.js";
@@ -14,7 +14,6 @@ interface props {
 function ListOfProducts({ products }: props) {
 
     const navigate = useNavigate();
-  
     function NavigateAndRestThings(id: any) {
 
         navigate(`/product/${id}`);
@@ -24,9 +23,9 @@ function ListOfProducts({ products }: props) {
     return (
         <>
 
-             <div className={styles.newProductGrid} >                 
-               <ProductCard products={products}/>
-             </div>
+            <div className={styles.newProductGrid} >
+                <ProductCard products={products} />
+            </div>
 
         </>
     )

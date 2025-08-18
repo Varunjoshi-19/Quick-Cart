@@ -1,6 +1,7 @@
 import shoes from "../assets/shoes1.jpg";
 export const BACKEND_URL = 'http://localhost:4000';
 export const COUNTRY_API_URL = "https://countriesnow.space/api/v0.1/countries";
+export const CURRENT_LOCATION_URL = "https://ipapi.co/json/";
 
 export let ALL_COUNTRIES: any[] = [];
 
@@ -53,25 +54,69 @@ export function searchForSpecificCountry(country: string) {
     return matchedCountries;
 }
 
+export const orders = [
+    {
+        orderId: "ORD123456",
+        paymentId: "PAY987654",
+        products: "Keyboard, Mouse",
+        name: "John Doe",
+        quantity: 2,
+        address: "123 Main St, Cityville",
+        totalAmount: "$150",
+        orderStatus: "Shipped",
+        date: "2025-07-03"
+    },
+    {
+        orderId: "ORD123457",
+        paymentId: "PAY987655",
+        products: "Monitor",
+        name: "Alice Smith",
+        quantity: 1,
+        address: "456 Second St, Townsville",
+        totalAmount: "$250",
+        orderStatus: "Processing",
+        date: "2025-07-02"
+    },
 
-export const OrderItems = [
+    {
+        orderId: "ORD123457",
+        paymentId: "PAY987655",
+        products: "Monitor",
+        name: "Alice Smith",
+        quantity: 1,
+        address: "456 Second St, Townsville",
+        totalAmount: "$250",
+        orderStatus: "Processing",
+        date: "2025-07-02"
+    },
 
-    "ORDER ID",
-    "Paymant Id",
-    "Products",
-    "Name",
-    "Phone",
-    "Number",
-    "Address",
-    "Pincode",
-    "Total Amount",
-    "Email",
-    "User Id",
-    "Order Status",
-    "Date"
+
+    {
+        orderId: "ORD123457",
+        paymentId: "PAY987655",
+        products: "Monitor",
+        name: "Alice Smith",
+        quantity: 1,
+        address: "456 Second St, Townsville",
+        totalAmount: "$250",
+        orderStatus: "Processing",
+        date: "2025-07-02"
+    },
+
+
+    {
+        orderId: "ORD123457",
+        paymentId: "PAY987655",
+        products: "Monitor",
+        name: "Alice Smith",
+        quantity: 1,
+        address: "456 Second St, Townsville",
+        totalAmount: "$250",
+        orderStatus: "Processing",
+        date: "2025-07-02"
+    },
+    // Add more orders...
 ]
-
-
 
 export const DummyCartItems = [
 

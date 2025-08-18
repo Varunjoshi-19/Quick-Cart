@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useCartItemContext } from "../hooks/ItemContext";
 import { ACTIONS, LocalProductPayloadType } from "../utils/interfaces";
+import Preloader from "../small-components/PreLoader";
+import { computeTheTotalAmount, fetchLocation } from "../utils/script"
 
 
 function ShoppingCart() {
@@ -17,8 +19,8 @@ function ShoppingCart() {
   const [cartItem, setCartItem] = useState<boolean>(false);
   const [selectedItems, setSelectedItems] = useState<LocalProductPayloadType[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
-  let amount = 0;
   const { productItems, dispatch } = useCartItemContext();
+  const [currentLocation, setCurrentLocation] = useState<string>("");
 
   useEffect(() => {
 
@@ -26,56 +28,47 @@ function ShoppingCart() {
     setCartItem(true);
     setSelectedItems(productItems);
     setTotalAmount(computeTheTotalAmount(productItems));
+
+    (async () => {
+      const location: string = await fetchLocation();
+      setCurrentLocation(location);
+
+    })();
   }, [productItems]);
 
 
 
-
   function handleDiscardProduct(productId: string) {
-    setSelectedItems(prevProducts => {
+
+    setSelectedItems((prevProducts) => {
       const updatedProducts = prevProducts.filter(product => product.id !== productId);
 
       if (updatedProducts.length === 0) {
         setCartItem(false);
-
       }
+
       dispatch({ type: ACTIONS.SET_SELECTED_PRODUCTS, payload: updatedProducts });
       localStorage.setItem("cartItems", JSON.stringify(updatedProducts));
 
       return updatedProducts;
     });
-  }
-
-  function computeTheTotalAmount(allItems: LocalProductPayloadType[]) {
-    let total = amount;
-
-    if (allItems && allItems.length > 0) {
-      allItems.forEach(each => {
-        total += Number(each.price) * each.count;
-      })
-
-      console.log("HERE THE TOTAL AMOUNT CALUCLATED", total);
-    }
-
-    amount = total;
-    return total;
 
   }
+
+
 
   function addToCart(id: string, count: number) {
+
     setSelectedItems(prevItems => {
       const updatedItems = prevItems.map(product => {
         if (product.id === id) {
-          setTotalAmount(computeTheTotalAmount(updatedItems));
-          return { ...product, count: product.count + count }
-        } else {
-          return product;
+          return { ...product, quantity: product.quantity + count }
         }
-
+        return product;
       });
 
-
-      const selectedProducts = updatedItems.filter(p => p.count > 0);
+      setTotalAmount(computeTheTotalAmount(updatedItems));
+      const selectedProducts = updatedItems.filter(p => p.quantity > 0);
       dispatch({ type: ACTIONS.SET_SELECTED_PRODUCTS, payload: selectedProducts });
       localStorage.setItem("cartItems", JSON.stringify(selectedProducts));
 
@@ -88,6 +81,20 @@ function ShoppingCart() {
     });
   }
 
+  const [showMain, setShowMain] = useState<boolean>(false);
+
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowMain(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!showMain) {
+    return <Preloader />
+  }
 
 
 
@@ -142,7 +149,7 @@ function ShoppingCart() {
                           className="bg-red-600 px-2 py-1 rounded text-lg"
                           onClick={() => { addToCart(item.id, -1) }}
                         >-</button>
-                        <span className="px-2">{item.count}</span>
+                        <span className="px-2">{item.quantity}</span>
                         <button
                           className="bg-red-600 px-2 py-1 rounded text-lg"
                           onClick={() => { addToCart(item.id, 1) }}
@@ -151,7 +158,7 @@ function ShoppingCart() {
 
 
                     </div>
-                    <div style={{ flex: 1, textAlign: "center" }}>₹{Number(item.price) * item.count}</div>
+                    <div style={{ flex: 1, textAlign: "center" }}>₹{Number(item.price) * item.quantity}</div>
                     <button
                       style={{
                         background: "none",
@@ -184,12 +191,6 @@ function ShoppingCart() {
                   borderBottom: "1px solid #ffffff4d"
                 }} >CART TOTALS</p>
 
-                <div id={styles.cartTotItems} >
-                  <span>Sub Total</span>
-                  <span style={{ color: "#C10537" }} >
-                    {String(totalAmount)}
-                  </span>
-                </div>
 
                 <div id={styles.cartTotItems} >
                   <span>shipping</span>
@@ -198,15 +199,15 @@ function ShoppingCart() {
 
                 <div id={styles.cartTotItems} >
                   <span>Deliver To</span>
-                  <span>India</span>
+                  <span>{currentLocation}</span>
                 </div>
 
                 <div id={styles.cartTotItems} >
                   <span>Total</span>
-                  <span style={{ color: "#C10537" }} >712389791</span>
+                  <span style={{ color: "green", fontWeight: "bolder" }} >₹{String(totalAmount)}</span>
                 </div>
 
-                <button id={styles.checkoutBagCart} >
+                <button onClick={() => navigate("/cart/checkout-items")} id={styles.checkoutBagCart} >
                   <FontAwesomeIcon icon={faShoppingBag} style={{ fontSize: "1rem", color: "white" }} />
                   <span>Checkout</span>
                 </button>
