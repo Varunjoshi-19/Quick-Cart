@@ -6,8 +6,10 @@ import { faShoppingCart, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 import { useEffect, useRef, useState } from "react";
 import ProductSlider from "./ProductSlider";
-import {  AllProductsContainer, getCurrentProducts } from "@/utils/getProducts";
+import { AllProductsContainer, getCurrentProducts } from "@/utils/getProducts";
 import { useParams } from "react-router-dom";
+import { useCartItemContext } from "@/hooks/ItemContext";
+import { ACTIONS } from "@/utils/interfaces";
 
 
 type ZoomImageType = {
@@ -44,6 +46,8 @@ function SingleProduct() {
     })
 
     const [itemQuntity, setItemQuntity] = useState<number>(0);
+    const [mainProduct , setMainProduct] = useState<any | null>(null);
+    const {  dispatch } = useCartItemContext();
 
 
     const [zoomStyles, setZoomStyles] = useState<ZoomImageType>({
@@ -57,6 +61,15 @@ function SingleProduct() {
         function setSingleProduct() {
             const product: any = AllProductsContainer.find((product) => product._id === id);
             if (product) {
+                const mainProduct = {
+                     id : product._id,
+                     quantity : 1,
+                     name : product.productName,
+                     price : product.discountPrice,
+                     category : product.category,
+                     description : product.productDesc
+                }
+                setMainProduct(mainProduct);
                 setCurrentSelectedProduct(product);
                 const related: any = getCurrentProducts(product.category);
                 console.log(related);
@@ -238,12 +251,15 @@ function SingleProduct() {
 
                                         {itemQuntity === 0 &&
 
-                                            <button onClick={() => setItemQuntity(1)}
+                                            <button onClick={() =>  {
+                                                 setItemQuntity(1);
+                                                
+                                            }}
 
                                                 className={styles.AddToCartButton}
                                             >
                                                 <FontAwesomeIcon icon={faShoppingCart} />
-                                                <span>Add to Cart</span>
+                                                <span onClick={() =>  dispatch({ type: ACTIONS.SET_SELECTED_PRODUCTS, payload: mainProduct })}  >Add to Cart</span>
                                             </button>
                                         }
 
@@ -325,9 +341,9 @@ function SingleProduct() {
 
                             }} >
                                 <p style={{ fontSize: "1.2rem", fontWeight: "bolder" }} >RELATED PRODUCTS</p>
-                                {relventProducts && <ProductSlider moveLeftSideScroll={moveLeftSideScroll}
+                                {/* {relventProducts && <ProductSlider moveLeftSideScroll={moveLeftSideScroll}
                                     productList={relventProducts}
-                                    moveRightSideScroll={moveRightSideScroll} ID="relatedProducts" />}
+                                    moveRightSideScroll={moveRightSideScroll} ID="relatedProducts" />} */}
                             </div>
 
                         </div>

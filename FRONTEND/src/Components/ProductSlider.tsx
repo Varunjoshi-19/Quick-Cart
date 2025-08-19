@@ -61,7 +61,7 @@ function ProductSlider({ moveLeftSideScroll, moveRightSideScroll, ID, productLis
     return (
         <div className={styles.productListContainer} style={{ position: "relative" }}>
             <div id={ID} className={styles.productList} style={{ scrollBehavior: "smooth", display: "flex", gap: "1rem", overflowX: "auto" }}>
-                {productList.map((each) => {
+                {productItems && productList.map((each) => {
                     const counter = productItems.find((p) => p.id === each._id)?.quantity ?? 0;
 
                     return (

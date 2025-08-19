@@ -13,13 +13,12 @@ export default function OrderCard({ order }: { order: any }) {
         <div className="flex flex-wrap gap-6 text-sm text-white-700">
           <Field label="Order ID" value={order.orderId} />
           <Field label="Payment ID" value={order.paymentId} />
-          <Field label="Products" value={order.products} />
-          <Field label="Name" value={order.name} />
-          <Field label="Quantity" value={order.quantity} />
-          <Field label="Address" value={order.address} />
+          <Field label="Products" value={order.productName} />
+          <Field label="Name" value={order.userName} />
+          <Field label="Address" value={order.address.address} />
           <Field label="Total Amount" value={order.totalAmount} />
-          <Field label="Order Status" value={order.orderStatus} />
-          <Field label="Date" value={order.date} />
+          <Field label="Order Status" value={`Pending`} />
+          <Field label="Date" value={`${new Date(order.createdAt).getDate()}-${new Date(order.createdAt).getMonth().toString().padStart(2, "0")}-${new Date(order.createdAt).getFullYear()}`} />
         </div>
       </CardContent>
     </Card>

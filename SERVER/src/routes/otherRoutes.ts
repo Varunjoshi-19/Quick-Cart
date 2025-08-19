@@ -6,7 +6,7 @@ router.post("/payment/verify", handlePaymentVerify);
 router.get("/render/img/:userId", renderImage);
 router.get("/render/productImage/:productId", renderProduct);
 router.post("/order/payment/:paymentId", handleOrderPayment);
-router.post("/order/place-order", handleSaveOrder);
+router.post("/orders/place-order", handleSaveOrder);
 
 
 

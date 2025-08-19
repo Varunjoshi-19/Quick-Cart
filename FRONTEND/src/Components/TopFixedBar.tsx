@@ -34,12 +34,18 @@ function TopFixedBar() {
     let AllCountries: any[] = [];
 
     useEffect(() => {
-
+        function fetchCountry() {
+             const currentCountry = localStorage.getItem("current-region");
+             if(currentCountry) {
+                 setSelectedCountry(currentCountry);
+             }
+        }
         const fetchAllCountriesData = async () => {
             AllCountries = await fetchAllCountries();
             setCountriesData(AllCountries);
 
         }
+        fetchCountry();
         fetchAllCountriesData();
     }, []);
 
@@ -180,6 +186,7 @@ function TopFixedBar() {
                                     countriesData.map((country) => (
                                         <p onClick={() => {
                                             setSelectedCountry(country.country);
+                                            localStorage.setItem("current-region" , country.country);
                                             setLocationApiBox(false);
                                         }} id={style.eachCountry} key={country} >{country.country}</p>
                                     ))
@@ -277,11 +284,9 @@ function TopFixedBar() {
                             onClick={() => navigate("/cart")}
                             className={styles.shoppingCart}
                             disabled={!user}
-                            style={{ position: "relative", background: "none", border: "none", cursor: user ? "pointer" : "not-allowed" }}
                         >
-                            <FontAwesomeIcon icon={faShoppingCart} color="blue" />
+                            <FontAwesomeIcon icon={faShoppingCart} />
                             <span
-                                id={styles.totalItems}
                                 style={{
                                     position: "absolute",
                                     top: "-8px",
@@ -294,7 +299,6 @@ function TopFixedBar() {
                                     fontWeight: "bold",
                                     minWidth: "22px",
                                     textAlign: "center",
-                                    display: Array.isArray(productItems) && productItems.length > 0 ? "inline-block" : "none"
                                 }}
                             >
                                 {Array.isArray(productItems) ? productItems.length : 0}
@@ -330,9 +334,14 @@ function TopFixedBar() {
                             ))}
 
                             <div id={styles.hoverSideBox} >
-                                {updateCurrentItems.map((item, index) => (
-                                    <p key={index} style={{ width: "100%" }}  >{item}</p>
-                                ))}
+                                {
+                                    updateCurrentItems &&
+
+                                    updateCurrentItems.map((item, index) => (
+                                        <p key={index} style={{ width: "100%" }}  >{item}</p>
+                                    ))
+
+                                }
                             </div>
 
                         </div>
@@ -343,6 +352,7 @@ function TopFixedBar() {
 
 
                     {Images.map((image: ImageType, index) => (
+
                         <div onClick={() => NavigateAndMoveToTop(image.name)}
                             key={index}
                             className={styles.items}
@@ -355,8 +365,8 @@ function TopFixedBar() {
                             {hoveredIndex === index && (
 
                                 <div id={styles.itemHoveredList}  >
-                                    {updateCurrentItems.map((item, i) => (
-                                        <p key={i} >
+                                    {updateCurrentItems && updateCurrentItems.map((item, i) => (
+                                        <p key={i + Math.random() * 10} >
                                             {item}
                                         </p>
                                     ))}

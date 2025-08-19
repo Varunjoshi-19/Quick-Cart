@@ -73,18 +73,18 @@ function DashBoard() {
     }, [window.scrollY]);
 
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     const interval = setInterval(() => {
-    //         showNextBanner();
+        const interval = setInterval(() => {
+            showNextBanner();
 
-    //     }, 2000);
+        }, 2000);
 
 
-    //     return () => {
-    //         clearInterval(interval);
-    //     }
-    // }, [currentIndex])
+        return () => {
+            clearInterval(interval);
+        }
+    }, [currentIndex])
 
 
     useEffect(() => {
@@ -314,7 +314,7 @@ function DashBoard() {
 
                                 {OFFERS.map(each => (
 
-                                    <img src={each} alt="" style={{ borderRadius: "10px", width: "300px", height: "inherit" }} />
+                                    <img key={each} src={each} alt="" style={{ borderRadius: "10px", width: "300px", height: "inherit" }} />
 
                                 ))}
                             </div>
@@ -360,7 +360,7 @@ function DashBoard() {
 
                     {OFFERS2.map(each => (
 
-                        <img src={each} alt="" style={{ borderRadius: "10px", border: "1px solid white", width: "400px", height: "inherit" }} />
+                        <img key={each} src={each} alt="" style={{ borderRadius: "10px", border: "1px solid white", width: "400px", height: "inherit" }} />
                     ))}
 
                 </div>

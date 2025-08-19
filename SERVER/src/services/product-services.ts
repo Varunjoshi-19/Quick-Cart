@@ -1,8 +1,10 @@
 import { ProductPayloadType } from "../utils/interfaces";
 import { Response, Request } from "express";
 import productDoc from "../model/productDoc";
+import { PrismaClient } from "@prisma/client";
 
 export class ProductService {
+
 
 
      public static async handleAddNewProduct(req: Request, res: Response) {
@@ -67,6 +69,20 @@ export class ProductService {
           }
           catch (error) {
                console.error(error);
+          }
+     }
+
+
+     public static async handleGetOrder(req: Request, res: Response) {
+          const prisma = new PrismaClient();
+
+          try {
+               const orders = await prisma.order.findMany();
+               if (orders) {
+                    res.status(202).json({ orders: orders })
+               }
+          } catch (error) {
+               res.status(505).json({ error: error })
           }
      }
 

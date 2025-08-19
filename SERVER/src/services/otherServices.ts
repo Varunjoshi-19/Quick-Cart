@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { fileTypeFromBuffer } from "file-type";
+import fileType from "file-type";
 import productDoc from "../model/productDoc";
 import Razorpay from "razorpay";
 import crypto from "crypto";
@@ -72,7 +72,7 @@ class OtherServices {
             }
 
             // Detect content type dynamically from the buffer
-            const type = await fileTypeFromBuffer(user.imageData);
+            const type = await fileType.fromBuffer(user.imageData);
             if (!type) {
                 res.status(415).json({ errorMessage: "Unsupported image type" });
                 return;
@@ -117,7 +117,7 @@ class OtherServices {
 
     async saveOrder(req: Request, res: Response) {
         const { orderId, paymentId, userName, productName, totalAmount, address } = req.body;
-
+         console.log("new order to save" , req.body);
         if (!orderId || !paymentId || !userName || !productName || !totalAmount || !address) {
             res.status(400).json({ errorMessage: "Missing required order details" });
             return;

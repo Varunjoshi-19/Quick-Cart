@@ -1,6 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./src/server.ts"
@@ -8,35 +9,25 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "devDependencies": {
-    "@types/body-parser": "^1.19.5",
-    "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.0",
-    "@types/graphql": "^14.2.3",
-    "@types/graphql-upload": "^17.0.0",
-    "@types/mongoose": "^5.11.96",
-    "@types/node": "^22.13.10",
-    "prisma": "^6.10.1",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^24.3.0",
+    "@types/nodemon": "^3.1.1",
+    "prisma": "^6.14.0",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@apollo/server": "^4.11.3",
-    "@graphql-tools/schema": "^10.0.21",
-    "@graphql-tools/utils": "^10.8.4",
-    "@prisma/client": "^6.10.1",
-    "@types/multer": "^1.4.12",
-    "body-parser": "^1.20.3",
+    "@prisma/client": "^6.14.0",
+    "body-parser": "^2.2.0",
     "cors": "^2.8.5",
-    "express": "^4.21.2",
-    "file-type": "^21.0.0",
-    "graphql": "^16.10.0",
-    "graphql-upload": "^17.0.0",
-    "mongoose": "^8.12.1",
-    "multer": "^1.4.5-lts.1",
+    "express": "^5.1.0",
+    "file-type": "^16.5.4",
+    "mongoose": "^8.17.2",
+    "multer": "^2.0.2",
     "nodemon": "^3.1.10",
-    "razorpay": "^2.9.6",
-    "tsc-watch": "^6.2.1"
+    "razorpay": "^2.9.6"
   }
 }
