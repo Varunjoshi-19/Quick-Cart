@@ -1,4 +1,3 @@
-// components/OrderCard.tsx
 
 import { Card, CardHeader, CardContent } from "../comp/components/ui/card";
 

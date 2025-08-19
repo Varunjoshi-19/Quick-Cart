@@ -9,8 +9,8 @@ function Orders() {
 
     useEffect(() => {
 
-        // TODO : fetch all the orders from the database and list them here .
-    }, [])
+      
+    }, []);
 
 
     return (

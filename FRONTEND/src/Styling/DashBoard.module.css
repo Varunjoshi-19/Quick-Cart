@@ -31,7 +31,7 @@
      width: 200px;
      height: 100px;
 
-     margin-left: 50px;
+     
 }
 
 .navBar .locationMenu {
@@ -42,13 +42,14 @@
      justify-content: space-around;
      align-items: center;
      width: 200px;
-     height: 50px;
+     height: auto;
      transition: background-color 200ms;
 }
 
 .locationMenu:hover {
      background-color: rgba(92, 109, 141, 0.253);
      cursor: pointer;
+    
 }
 
 .navBar .inputBox {

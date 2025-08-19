@@ -9,8 +9,7 @@ import BottomFixedBar from "./BottomFixedBar";
 import ListOfProducts from "./ListOfProducts";
 import { useNavigate } from "react-router-dom";
 import { SlideToTop } from "../utils/script";
-import { useProductContext } from "../hooks/ProductContext";
-import { ProductPayloadType } from "utils/interfaces";
+import { allBags, allFootwears, electronicProducts, generateRandomProducts } from "@/utils/getProducts";
 
 
 
@@ -28,11 +27,22 @@ function DashBoard() {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [productItems, setProductItems] = useState<ImageType[]>([]);
     const [upwardIcon, setUpwardIcon] = useState<boolean>(false);
-    const [allProducts, setAllProducts] = useState<ProductPayloadType[] | null>([]);
+    const [allProducts, setAllProducts] = useState<any[] | null>([]);
 
     const navigate = useNavigate();
 
-    const { products } = useProductContext();
+
+
+    useEffect(() => {
+
+        function getNewProducts() {
+            const allProducts = generateRandomProducts();
+            setAllProducts(allProducts);
+        }
+
+        getNewProducts();
+
+    }, [])
 
 
 
@@ -63,26 +73,19 @@ function DashBoard() {
     }, [window.scrollY]);
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        const interval = setInterval(() => {
-            showNextBanner();
+    //     const interval = setInterval(() => {
+    //         showNextBanner();
 
-        }, 2000);
+    //     }, 2000);
 
 
-        return () => {
-            clearInterval(interval);
-        }
-    }, [currentIndex])
+    //     return () => {
+    //         clearInterval(interval);
+    //     }
+    // }, [currentIndex])
 
-    useEffect(() => {
-        if (products) {
-            setAllProducts(products);
-        }
-        setProductItems(Images);
-
-    }, [products])
 
     useEffect(() => {
 
@@ -285,12 +288,11 @@ function DashBoard() {
 
                         {/*  product list   */}
 
-                        <ProductSlider moveLeftSideScroll={moveLeftSideScroll} moveRightSideScroll={moveRightSideScroll} ID="sliderContainer2" />
+                        <ProductSlider moveLeftSideScroll={moveLeftSideScroll} moveRightSideScroll={moveRightSideScroll}
+                            productList={allBags}
+                            ID="sliderContainer2" />
 
-
-
-
-                        <div className={styles.newProductsContainer}  >
+                        <div className={styles.newProductsContainer} >
 
                             <div style={{ display: 'flex', flexDirection: "column", padding: "10px" }} >
                                 <span style={{ fontSize: "1.2rem", fontWeight: "bolder" }} >NEW PRODUCTS</span>
@@ -301,7 +303,6 @@ function DashBoard() {
                                 <ListOfProducts products={allProducts} />
 
                             }
-
 
                         </div>
 
@@ -348,7 +349,9 @@ function DashBoard() {
                     </div>
 
 
-                    <ProductSlider moveLeftSideScroll={moveLeftSideScroll} moveRightSideScroll={moveRightSideScroll} ID="featuredProductSlider" />
+                    <ProductSlider moveLeftSideScroll={moveLeftSideScroll}
+                        productList={electronicProducts}
+                        moveRightSideScroll={moveRightSideScroll} ID="featuredProductSlider" />
 
                 </div>
 
@@ -370,7 +373,9 @@ function DashBoard() {
                         <span style={{ color: "rgba(190, 187, 187, 0.562)" }} >Do not miss the current offers unitl the end of march.</span>
                     </div>
 
-                    <ProductSlider moveLeftSideScroll={moveLeftSideScroll} moveRightSideScroll={moveRightSideScroll} ID="footwearSlider" />
+
+                    <ProductSlider moveLeftSideScroll={moveLeftSideScroll} moveRightSideScroll={moveRightSideScroll}
+                        productList={allFootwears} ID="footwearSlider" />
 
                 </div>
 

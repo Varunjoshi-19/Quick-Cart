@@ -1,7 +1,7 @@
 import styles from "../Styling/DashBoard.module.css";
 import style from "../Styling/TopBar.module.css"
 import { useState, useEffect } from "react";
-import webLogo from "../assets/cart.png";
+import webLogo from "../assets/myWebLogo.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faSearch, faShoppingCart, faBars, faUser, faShoppingBag, faListUl, faSignOut, faClose } from '@fortawesome/free-solid-svg-icons';
 import { Images, CurrentHoverItemList } from "../utils/GetImage";
@@ -23,6 +23,7 @@ function TopFixedBar() {
     const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
     const [locationApiBox, setLocationApiBox] = useState<boolean>(false);
     const [countryName, setCountryName] = useState<string>("");
+    const [selectedCountry, setSelectedCountry] = useState<string>("-");
 
     const navigate = useNavigate();
 
@@ -177,7 +178,10 @@ function TopFixedBar() {
 
                                     ?
                                     countriesData.map((country) => (
-                                        <p id={style.eachCountry} key={country} >{country.country}</p>
+                                        <p onClick={() => {
+                                            setSelectedCountry(country.country);
+                                            setLocationApiBox(false);
+                                        }} id={style.eachCountry} key={country} >{country.country}</p>
                                     ))
 
                                     :
@@ -203,8 +207,8 @@ function TopFixedBar() {
 
                     <div style={{ display: 'flex', alignItems: "center", gap: "20px", justifyContent: "flex-start", width: "70%" }}>
                         <div style={{ cursor: "pointer" }} id={styles.logo} >
-                            <img onClick={() => navigate("/")} src={webLogo} alt="web-logo" width="50%" height="100%"
-                                style={{ objectFit: "contain" }}
+                            <img onClick={() => navigate("/")} src={webLogo} alt="web-logo" width={"100px"}
+                                style={{ objectFit: "contain", flexShrink: "0" }}
                             />
                             <span style={{ fontSize: "1.1rem", fontWeight: "bolder", fontFamily: "cursive" }}>Quick Cart</span>
                         </div>
@@ -213,8 +217,8 @@ function TopFixedBar() {
                         <div onClick={() => setLocationApiBox(true)} className={styles.locationMenu} >
 
                             <div style={{ height: "100%", width: "50", gap: "5px", display: "flex", flexDirection: "column" }} >
-                                <span style={{ fontSize: "15px", color: "#5E6566" }} >Your Location</span>
-                                <span style={{ color: "#573B8B", fontWeight: "bolder" }} >All</span>
+                                <span style={{ fontSize: "15px", color: "#5E6566" }} >Location</span>
+                                <span style={{ color: "#573B8B", fontWeight: "bolder" }} >{selectedCountry}</span>
                             </div>
                             <FontAwesomeIcon icon={faCaretDown} />
                         </div>
@@ -269,12 +273,33 @@ function TopFixedBar() {
 
                         }
 
-                        {
-                            user && <button onClick={() => navigate("/cart")} className={styles.shoppingCart} >
-                                <FontAwesomeIcon icon={faShoppingCart} color="white" />
-                                <p id={styles.totalItems} >{productItems.length}</p>
-                            </button>
-                        }
+                        <button
+                            onClick={() => navigate("/cart")}
+                            className={styles.shoppingCart}
+                            disabled={!user}
+                            style={{ position: "relative", background: "none", border: "none", cursor: user ? "pointer" : "not-allowed" }}
+                        >
+                            <FontAwesomeIcon icon={faShoppingCart} color="blue" />
+                            <span
+                                id={styles.totalItems}
+                                style={{
+                                    position: "absolute",
+                                    top: "-8px",
+                                    right: "-8px",
+                                    background: "#ff3b3b",
+                                    color: "white",
+                                    borderRadius: "50%",
+                                    padding: "2px 7px",
+                                    fontSize: "0.8rem",
+                                    fontWeight: "bold",
+                                    minWidth: "22px",
+                                    textAlign: "center",
+                                    display: Array.isArray(productItems) && productItems.length > 0 ? "inline-block" : "none"
+                                }}
+                            >
+                                {Array.isArray(productItems) ? productItems.length : 0}
+                            </span>
+                        </button>
 
                     </div>
 

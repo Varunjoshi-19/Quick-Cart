@@ -1,4 +1,3 @@
-// AdminDashboard.tsx
 import React, { useState } from "react";
 
 interface Product {

@@ -15,6 +15,10 @@ export function handleOrderPayment(req: Request, res: Response) {
      otherServices.orderPayment(req, res);
 }
 
+export function handleSaveOrder(req: Request, res: Response) {
+     otherServices.saveOrder(req, res);
+}
+
 export function handlePaymentVerify(req: Request, res: Response) {
      otherServices.paymentVerification(req, res);
 }

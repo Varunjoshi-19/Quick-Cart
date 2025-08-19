@@ -8,7 +8,7 @@ import { useUserAuthContext } from "../hooks/UserContext";
 import SlideMessage from "../small-components/Toaster";
 import Preloader from "../small-components/PreLoader";
 import { useNavigate } from "react-router-dom";
-import { ACTIONS, OrderPlacePayload } from "../utils/interfaces";
+import { ACTIONS } from "../utils/interfaces";
 
 const Checkout = () => {
 
@@ -98,15 +98,16 @@ const Checkout = () => {
 
 
                 const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = response;
+                const productNames = productItems.map(item => item.name).join(", ");
+                const orderDetailsData = {
+                    orderId: razorpay_order_id,
+                    paymentId: razorpay_payment_id,
+                    userName: user?.name || "",
+                    productName: productNames,
+                    totalAmount: totalAmount,
+                    address: deliveryAddress,
+                }
 
-                // const orderDetailsData :OrderPlacePayload = {
-                //     orderId : razorpay_order_id,
-                //     paymentId : razorpay_payment_id,
-                //     userName : user?.name || "",
-                //     productName : 
-                // }
-
-                // TODO : create order and save into the database .
 
                 const res = await fetch(`${BACKEND_URL}/api/payment/verify`, {
                     method: "POST",
@@ -118,7 +119,7 @@ const Checkout = () => {
                 if (res.ok) {
                     console.log("payment verified done");
                     setPaymentVerifiedAndDone(true);
-                    // await handleSavePlacedOrder();
+                    await handleSavePlacedOrder(orderDetailsData);
                     dispatch({ type: ACTIONS.SET_SELECTED_PRODUCTS, payload: null });
                     localStorage.removeItem("cartItems");
                     return;
@@ -147,6 +148,23 @@ const Checkout = () => {
 
 
 
+    }
+
+
+    async function handleSavePlacedOrder(orderDetailsData: any) {
+        console.log("Order Details Data: ", orderDetailsData);
+        const res = await fetch(`${BACKEND_URL}/api/orders/place-order`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(orderDetailsData)
+        });
+
+        if (res.ok) {
+            console.log("Order saved successfully");
+            return;
+        }
     }
 
 
@@ -245,7 +263,7 @@ const Checkout = () => {
                                 <span>Order Total:</span>
                                 <span className="text-green-600">₹{totalAmount || 0}</span>
                             </div>
-                            <Button  variant="my-variant" className="w-full mt-4"
+                            <Button variant="my-variant" className="w-full mt-4"
                                 onClick={() => {
                                     setProceedToBuyEnable(false);
                                     setAddAddress(true);

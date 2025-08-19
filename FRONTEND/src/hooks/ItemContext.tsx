@@ -50,6 +50,7 @@ export const ItemContextProvider = ({ children }: { children: React.ReactNode })
     function loadProducts() {
         const parsedStoredProduct: any = loadProductsFromLocalStorage();
         if (parsedStoredProduct) {
+
             dispatch({ type: ACTIONS.SET_SELECTED_PRODUCTS, payload: parsedStoredProduct });
         }
 

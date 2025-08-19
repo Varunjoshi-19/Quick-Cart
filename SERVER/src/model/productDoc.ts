@@ -1,6 +1,4 @@
-import { validate } from "graphql";
 import { Schema, model } from "mongoose"
-import { buffer } from "stream/consumers";
 
 
 const ProductSchema = new Schema({

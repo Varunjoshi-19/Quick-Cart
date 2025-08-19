@@ -115,6 +115,33 @@ class OtherServices {
     }
 
 
+    async saveOrder(req: Request, res: Response) {
+        const { orderId, paymentId, userName, productName, totalAmount, address } = req.body;
+
+        if (!orderId || !paymentId || !userName || !productName || !totalAmount || !address) {
+            res.status(400).json({ errorMessage: "Missing required order details" });
+            return;
+        }
+
+        try {
+            const newOrder = await this.#prisma.order.create({
+                data: {
+                    orderId,
+                    paymentId,
+                    userName,
+                    productName,
+                    totalAmount,
+                    address
+                }
+            });
+
+            res.status(201).json(newOrder);
+        } catch (error) {
+            console.error("Error saving order:", error);
+            res.status(500).json({ errorMessage: "Failed to save order" });
+        }
+    }
+
 
 }
 
